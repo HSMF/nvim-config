@@ -120,4 +120,5 @@ return {
             end, { desc = "Open next js regex in regex101" })
         end,
     },
+
 }

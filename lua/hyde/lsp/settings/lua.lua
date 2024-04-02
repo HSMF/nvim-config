@@ -76,4 +76,6 @@ local opts = {
     },
 }
 
+require("lspconfig").lua_ls.setup(opts)
+
 return opts

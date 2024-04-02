@@ -1,7 +1,6 @@
 local M = {}
 local quick_list_enabled_servers = {
     "hdl_checker",
-    "jdtls",
     "texlab",
     "jsonls",
     "taplo",
@@ -53,6 +52,8 @@ function M.setup()
     local handlers = require("hyde.lsp.handlers")
     handlers.setup()
     load_all()
+    require("hyde.lsp.null")
+
     for _, server in ipairs(quick_list_enabled_servers) do
         nvim_lspconfig[server].setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
     end

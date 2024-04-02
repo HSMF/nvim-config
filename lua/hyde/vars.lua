@@ -1,4 +1,4 @@
 return {
     auto_format = true,
-    latex_viewer = "zathura"
+    latex_viewer = "zathura",
 }

@@ -273,18 +273,18 @@ local function config()
             v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
             -- m = { name = "more", t = ""}
         },
-        m = {
-            m = {
-                function()
-                    local buf = vim.api.nvim_get_current_buf()
-                    local ft = vim.api.nvim_buf_get_option(buf, "filetype")
-                    if ft == "sql" then
-                        require("hyde.migrate-move").open_window()
-                    end
-                end,
-                "migrate move open",
-            },
-        },
+        -- m = {
+        --     function()
+        --         require("harpoon.mark").add_file()
+        --     end,
+        --     "add file to harpoon",
+        -- },
+        -- M = {
+        --     function()
+        --         require("harpoon.ui").toggle_quick_menu()
+        --     end,
+        --     "add file",
+        -- },
         d = {
             name = "debugger",
             [" "] = { "<cmd>lua require'dap'.continue()<cr>", "continue" },
