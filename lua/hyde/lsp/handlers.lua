@@ -15,12 +15,21 @@ local contains = function(tbl, el)
     return false
 end
 
+function M.new_capabilities()
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+    capabilities.textDocument.colorProvider = {
+        dynamicRegistration = true,
+    }
+    return capabilities
+end
+
 M.setup = function()
     local signs = {
         { name = "DiagnosticSignError", text = icons.error },
-        { name = "DiagnosticSignWarn",  text = icons.warningTriangle },
-        { name = "DiagnosticSignHint",  text = icons.info },
-        { name = "DiagnosticSignInfo",  text = icons.questionCircle },
+        { name = "DiagnosticSignWarn", text = icons.warningTriangle },
+        { name = "DiagnosticSignHint", text = icons.info },
+        { name = "DiagnosticSignInfo", text = icons.questionCircle },
     }
     for _, sign in ipairs(signs) do
         vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
@@ -64,10 +73,7 @@ M.setup = function()
         return
     end
 
-    M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-    M.capabilities.textDocument.colorProvider = {
-        dynamicRegistration = true,
-    }
+    M.capabilities = M.new_capabilities()
 end
 
 local function lsp_highlight_document(client)
@@ -118,7 +124,6 @@ M.go_org_imports = function(wait_ms)
 end
 
 M.on_attach = function(client, bufnr)
-
     if client.name == "tsserver" then
         client.server_capabilities.document_formatting = false
     end
@@ -168,9 +173,9 @@ M.on_attach = function(client, bufnr)
             mode = "n",
             prefix = "<leader>",
             buf = bufnr,
-            silent = true,  -- use `silent` when creating keymaps
+            silent = true, -- use `silent` when creating keymaps
             noremap = true, -- use `noremap` when creating keymaps
-            nowait = true,  -- use `nowait` when creating keymaps
+            nowait = true, -- use `nowait` when creating keymaps
         })
     end
 

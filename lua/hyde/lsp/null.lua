@@ -42,6 +42,22 @@ local texfmt = {
     }),
 }
 
+local google_java_format = {
+    method = null_ls.methods.FORMATTING,
+    filetypes = { "java" },
+    generator = null_ls.formatter({
+        command = "google-java-format",
+        args = function()
+            return {
+                "--aosp",
+                "--replace",
+                "-",
+            }
+        end,
+        to_stdin = true,
+    }),
+}
+
 null_ls.setup({
     --[[ debug = true, ]]
     sources = {
@@ -72,6 +88,7 @@ null_ls.setup({
         -- formatting.markdown_toc,
         formatting.mdformat,
         formatting.shfmt,
+        formatting.google_java_format.with{extra_args = {"--aosp"}},
         -- diagnostics.flake8
         sqlfmt,
         texfmt,
