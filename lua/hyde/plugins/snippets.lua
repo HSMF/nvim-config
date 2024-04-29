@@ -15,11 +15,19 @@ local function config()
     local d = ls.dynamic_node
     local r = ls.restore_node
 
+    require("luasnip.loaders.from_lua").load({ paths = { "./lua/hyde/snippets/ft/" } })
+
     ls.add_snippets("rust", {
         s("tests", {
             t({ "#[cfg(test)]", "mod tests {", "\tuse super::*;", "\t" }),
             i(1),
             t({ "", "}", "" }),
+        }),
+    })
+
+    ls.add_snippets("python", {
+        s("debug", {
+            t({ [[__import__("IPython").embed()]] }),
         }),
     })
 
@@ -112,7 +120,7 @@ local function config()
             t([[}]]),
         }),
         s("->", {
-            t([[\to]])
+            t([[\to]]),
         }),
     }, { type = "autosnippets" })
 
