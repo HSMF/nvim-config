@@ -5,7 +5,7 @@ function M.require(path) end
 function M.get_vars()
     local config_dir = vim.api.nvim_list_runtime_paths()[1]
     local path = config_dir .. "/lua/hyde/vars.lua"
-    if vim.fn.filereadable(path) then
+    if vim.fn.filereadable(path) ~= 0 then
         return require("hyde.vars")
     end
 
