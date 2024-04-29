@@ -86,7 +86,7 @@ local exists_lsp = function(buf)
     return false
 end
 
-if require("hyde.vars").auto_format then
+if require("hyde.util").get_vars().auto_format then
     local group = create_augroup("AutoFormat")
     autocmd(group, "BufWritePost", "*", function(ev)
         local buf = ev.buf

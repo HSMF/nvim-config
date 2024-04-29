@@ -31,10 +31,11 @@ local options = {
     cursorline = true,
     ignorecase = true,
     smartcase = true,
+    grepprg = "rg --vimgrep --smart-case --hidden",
+    grepformat = "%f:%l:%c:%m",
 }
 
 local other_options = {
-    grepprg = "rg -n $*",
     swapfile = false,
 }
 

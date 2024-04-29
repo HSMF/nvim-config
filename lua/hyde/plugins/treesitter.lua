@@ -9,7 +9,7 @@ local function config()
     configs.setup({
         ensure_installed = "all",
         sync_install = false,
-        ignore_install = { "" },
+        ignore_install = { "latex" },
         autopairs = {
             enable = true,
         },
@@ -18,7 +18,7 @@ local function config()
         },
         highlight = {
             enable = true,
-            disable = { "org" },                           -- Remove this to use TS highlighter for some of the highlights (Experimental)
+            disable = { "org", "latex" },                           -- Remove this to use TS highlighter for some of the highlights (Experimental)
             additional_vim_regex_highlighting = { "org" }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
         indent = { enable = true, disable = { "yaml" } },
