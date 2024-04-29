@@ -6,7 +6,6 @@ local function config()
 
     -- https://github.com/L3MON4D3/LuaSnip/blob/master/Examples/snippets.lua#L190
 
-
     local s = ls.snippet
     local sn = ls.snippet_node
     local t = ls.text_node
@@ -99,7 +98,32 @@ local function config()
             i(1),
             t("'"),
         }),
+        -- TODO: fix autopairs
+        s("l(", {
+            t("\\left("),
+            i(1),
+            t("\\right"),
+        }),
+        s("//", {
+            t([[\frac{]]),
+            i(1),
+            t([[}{]]),
+            i(2),
+            t([[}]]),
+        }),
+        s("->", {
+            t([[\to]])
+        }),
     }, { type = "autosnippets" })
+
+    ls.add_snippets("tex", {
+        s("document", {
+
+            t({ "\\documentclass{article}", "\\usepackage{hyde}", "", "\\begin{document}", "" }),
+            i(1),
+            t({ "", "\\end{document}" }),
+        }),
+    })
 
     local function test(args, parent, user_args)
         if args[1] ~= nil and args[1][1] ~= nil and args[1][1] ~= "" then
@@ -125,14 +149,14 @@ local function config()
         s("guard", {
             t("#ifdef "),
             f(
-                test,  -- callback (args, parent, user_args) -> string
+                test, -- callback (args, parent, user_args) -> string
                 { 1 }, -- node indice(s) whose text is passed to fn, i.e. i(2)
                 {}
             ),
             i(1),
             t({ "", "#define " }),
             f(
-                test,  -- callback (args, parent, user_args) -> string
+                test, -- callback (args, parent, user_args) -> string
                 { 1 }, -- node indice(s) whose text is passed to fn, i.e. i(2)
                 { user_args = { "" } }
             ),
@@ -170,6 +194,6 @@ return {
         dependencies = {
             "rafamadriz/friendly-snippets",
         },
-        config = config
+        config = config,
     },
 }
