@@ -38,11 +38,11 @@ local function direct_maps()
     map("i", "<A-k>", "<Esc>:m .-2<CR>==a", opts)
 
     -- indent
-    map("n", "<S-Tab>", "<<", opts)
-    map("i", "<S-Tab>", "<C-d>", opts)
-    map("n", "<Tab>", ">>", opts)
-    map("v", "<S-Tab>", "<", opts)
-    map("v", "<Tab>", ">", opts)
+    -- map("n", "<S-Tab>", "<<", opts)
+    -- map("i", "<S-Tab>", "<C-d>", opts)
+    -- map("n", "<Tab>", ">>", opts)
+    -- map("v", "<S-Tab>", "<", opts)
+    -- map("v", "<Tab>", ">", opts)
 
     -- move
     map("v", "º", ":m .+1<CR>==", opts)

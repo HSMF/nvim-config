@@ -1,0 +1,117 @@
+local ls = require("luasnip")
+local shared = require("hyde.snippets")
+local autos = shared.autos
+local get_visual = shared.get_visual
+
+local s = ls.snippet
+local sn = ls.snippet_node
+local t = ls.text_node
+local i = ls.insert_node
+local f = ls.function_node
+local c = ls.choice_node
+local d = ls.dynamic_node
+local r = ls.restore_node
+local rep = require("luasnip.extras").rep
+local fmta = require("luasnip.extras.fmt").fmta
+
+--- prepends a backslash to the string, minimal gains
+local function cmd(str)
+    return t("\\" .. str)
+end
+
+local function reg_trig(trig)
+    return {
+        trig = trig,
+        regTrig = true,
+        wordTrig = false,
+    }
+end
+
+local function in_mathzone()
+    return vim.fn["vimtex#syntax#in_mathzone"]() == 1
+end
+local function in_text()
+    return not in_mathzone()
+end
+local function in_comment()
+    return vim.fn["vimtex#syntax#in_comment"]() == 1
+end
+local function in_env(name)
+    local is_inside = vim.fn["vimtex#env#is_inside"](name)
+    return (is_inside[1] > 0 and is_inside[2] > 0)
+end
+local function in_equation() -- equation environment detection
+    return in_env("equation")
+end
+local function in_itemize() -- itemize environment detection
+    return in_env("itemize")
+end
+local function in_tikz() -- TikZ picture environment detection
+    return in_env("tikzpicture")
+end
+
+local M = {
+    autos(";a", { t([[\alpha]]) }),
+    autos(";b", { t([[\beta]]) }),
+    autos(";g", { t([[\gamma]]) }),
+    autos(";e", { t([[\vareps]]) }),
+    autos(";p", { t([[\varphi]]) }),
+    s("tt", {
+        cmd("texttt{"),
+        i(1),
+        t("}"),
+        i(0),
+    }),
+    autos(
+        { trig = "([^%a])ff", regTrig = true, wordTrig = false },
+        fmta([[<>\frac{<>}{<>}]], {
+            shared.first_capture,
+            i(1),
+            i(2),
+        }),
+        { condition = in_mathzone }
+    ),
+    s("env", {
+        cmd("begin{"),
+        i(1),
+        t({ "}", "\t" }),
+        i(0),
+        t({ "", [[\end{]] }),
+        rep(1),
+        t("}"),
+    }),
+    s(
+        { trig = "hr", dscr = "The hyperref package's href{}{} command (for url links)" },
+        fmta([[\href{<>}{<>}]], {
+            i(1, "url"),
+            i(2, "display name"),
+        })
+    ),
+    s(
+        "tii",
+        fmta([[\textit{<>}]], {
+            d(1, get_visual),
+        })
+    ),
+    autos(
+        reg_trig("([^%a])ee"),
+        fmta("<>e^{<>}", {
+            shared.first_capture,
+            d(1, get_visual),
+        })
+    ),
+    autos(
+        "dd",
+        fmta("\\draw [<>] ", {
+            i(1, "params"),
+        }),
+        { condition = in_tikz }
+    ),
+    autos("ii", t([[\item ]]), { condition = in_itemize }),
+}
+
+for idx = 1, 10, 1 do
+    local pat = "([%a%(%)%{%}%[%]])" .. idx .. idx
+    M[#M + 1] = autos(reg_trig(pat), fmta("<>_{<>}", { shared.first_capture, t("" .. idx) }))
+end
+return M
