@@ -18,12 +18,8 @@ vim.treesitter.query.set(
     "ocaml",
     "LuaSnip_FunctionName",
     [[
-        (compilation_unit
-            (value_definition
-                (let_binding pattern: (_) @fname)
-            )
-        )
-]]
+    (let_binding pattern: (_) @fname)
+    ]]
 )
 
 vim.treesitter.query.set(
@@ -39,9 +35,9 @@ local function todo_info()
     local scope = ts_locals.get_scope_tree(cursor_node, 0)
     local around_cursor = scope[1]
     local compilation_unit
-    for _, v in ipairs(scope) do
-        if v:type() == "compilation_unit" then
-            compilation_unit = v
+    for j = #scope, 1, -1 do
+        if scope[j]:type() == "let_binding" then
+            compilation_unit = scope[j]
             break
         end
     end
