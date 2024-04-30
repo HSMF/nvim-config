@@ -44,7 +44,12 @@ local function todo_info()
     local query_function_name = vim.treesitter.query.get("ocaml", "LuaSnip_FunctionName")
     local query_match_case_pattern = vim.treesitter.query.get("ocaml", "LuaSnip_MatchCasePattern")
 
+    if compilation_unit == nil then
+        return "todo"
+    end
+
     local text = ""
+
     for _, node in query_function_name:iter_captures(compilation_unit, 0) do
         text = text .. " " .. get_node_text(node, 0)
         break
