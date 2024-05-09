@@ -24,4 +24,15 @@ return {
     return require("hyde.vars")
 end
 
+function M.filter_treesitter_parent(node, pred)
+    while node ~= nil do
+        if pred(node) then
+            return node
+        end
+        node = node:parent()
+    end
+
+    return nil
+end
+
 return M
