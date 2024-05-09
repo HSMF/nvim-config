@@ -1,11 +1,14 @@
 local library = {
     vim.fn.expand("$VIMRUNTIME"),
     os.getenv("HOME") .. ".config/nvim",
-    -- require("neodev.config").types(),
     "${3rd}/busted/library",
     "${3rd}/luassert/library",
     "/usr/share/awesome/lib",
 }
+
+if vim.loop.cwd():match("nvim$") ~= nil then
+    library[#library + 1] = require("neodev.config").types()
+end
 
 local function get_luarocks_paths()
     local ok, entries = pcall(vim.fn.system, "luarocks path --lr-path")
