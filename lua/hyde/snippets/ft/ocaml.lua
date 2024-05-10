@@ -57,6 +57,7 @@ local function todo_info()
     for _, node in query_match_case_pattern:iter_captures(around_cursor, 0) do
         text = text .. " case " .. get_node_text(node, 0)
     end
+    text = text:gsub("\n", " ")
 
     return "todo" .. text
 end
