@@ -5,6 +5,7 @@ local function set(where, options)
 end
 
 local options = {
+    exrc = true, -- per-directory config
     smartindent = true,
     tabstop = 4,
     shiftwidth = 4,

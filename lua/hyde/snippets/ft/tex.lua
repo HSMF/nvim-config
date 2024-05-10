@@ -14,6 +14,12 @@ local r = ls.restore_node
 local rep = require("luasnip.extras").rep
 local fmta = require("luasnip.extras.fmt").fmta
 
+local function append(tbl, more)
+    for _, value in ipairs(more) do
+        tbl[#tbl + 1] = value
+    end
+end
+
 --- prepends a backslash to the string, minimal gains
 local function cmd(str)
     return t("\\" .. str)
@@ -56,17 +62,11 @@ local M = {
     autos(";g", { t([[\gamma]]) }),
     autos(";e", { t([[\vareps]]) }),
     autos(";p", { t([[\varphi]]) }),
-    s("tt", {
-        cmd("texttt{"),
-        i(1),
-        t("}"),
-        i(0),
-    }),
     autos(
         { trig = "([^%a])ff", regTrig = true, wordTrig = false },
         fmta([[<>\frac{<>}{<>}]], {
-            shared.first_capture,
-            i(1),
+            shared.first_capture(),
+            d(1, get_visual),
             i(2),
         }),
         { condition = in_mathzone }
@@ -87,18 +87,22 @@ local M = {
             i(2, "display name"),
         })
     ),
-    s(
-        "tii",
-        fmta([[\textit{<>}]], {
+    autos(
+        reg_trig("([^%a])ee"),
+        fmta("<>e^{<>}", {
+            shared.first_capture(),
             d(1, get_visual),
         })
     ),
     autos(
-        reg_trig("([^%a])ee"),
-        fmta("<>e^{<>}", {
-            shared.first_capture,
+        reg_trig("([^%a])mm"),
+        fmta("<>$ <> $", {
+            shared.first_capture(),
             d(1, get_visual),
-        })
+        }),
+        {
+            condition = in_text,
+        }
     ),
     autos(
         "dd",
@@ -110,8 +114,31 @@ local M = {
     autos("ii", t([[\item ]]), { condition = in_itemize }),
 }
 
+-- modifiers
+append(M, {
+    autos(
+        "tii",
+        fmta([[\textit{<>}]], {
+            d(1, get_visual),
+        })
+    ),
+    autos(
+        "tbb",
+        fmta([[\textbf{<>}]], {
+            d(1, get_visual),
+        })
+    ),
+    autos(
+        "ul",
+        fmta([[\underline{<>}]], {
+            d(1, get_visual),
+        })
+    ),
+    autos("tt", fmta("\\texttt{<>}", { d(1, get_visual) })),
+})
+
 for idx = 1, 10, 1 do
     local pat = "([%a%(%)%{%}%[%]])" .. idx .. idx
-    M[#M + 1] = autos(reg_trig(pat), fmta("<>_{<>}", { shared.first_capture, t("" .. idx) }))
+    M[#M + 1] = autos(reg_trig(pat), fmta("<>_{<>}", { shared.first_capture(), t("" .. idx) }))
 end
 return M

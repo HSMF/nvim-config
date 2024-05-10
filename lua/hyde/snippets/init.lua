@@ -34,8 +34,10 @@ M.get_visual = function(args, parent)
     end
 end
 
-M.first_capture = f(function(_, snip)
-    return snip.captures[1]
-end)
+M.first_capture = function()
+    return f(function(_, snip)
+        return snip.captures[1]
+    end)
+end
 
 return M

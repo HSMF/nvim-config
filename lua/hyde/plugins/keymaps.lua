@@ -31,11 +31,19 @@ local function direct_maps()
     map("n", "∆", "<Esc>:m .-2<CR>==", opts)
     map("i", "º", "<Esc>:m .+1<CR>==a", opts)
     map("i", "∆", "<Esc>:m .-2<CR>==a", opts)
+    map("v", "º", ":m .+1<CR>==", opts)
+    map("v", "∆", ":m .-2<CR>==", opts)
+    map("x", "º", ":move '>+1<CR>gv-gv", opts)
+    map("x", "∆", ":move '<-2<CR>gv-gv", opts)
 
     map("n", "<A-j>", "<Esc>:m .+1<CR>==", opts)
     map("n", "<A-k>", "<Esc>:m .-2<CR>==", opts)
     map("i", "<A-j>", "<Esc>:m .+1<CR>==a", opts)
     map("i", "<A-k>", "<Esc>:m .-2<CR>==a", opts)
+    map("v", "<A-j>", ":m .+1<CR>==", opts)
+    map("v", "<A-k>", ":m .-2<CR>==", opts)
+    map("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
+    map("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
     -- indent
     -- map("n", "<S-Tab>", "<<", opts)
@@ -45,14 +53,12 @@ local function direct_maps()
     -- map("v", "<Tab>", ">", opts)
 
     -- move
-    map("v", "º", ":m .+1<CR>==", opts)
-    map("v", "∆", ":m .-2<CR>==", opts)
     map("x", "p", '"_dP', opts)
 
     map("x", "K", ":move '<-2<CR>gv-gv", opts)
     map("x", "J", ":move '>+1<CR>gv-gv", opts)
-    map("x", "º", ":move '>+1<CR>gv-gv", opts)
-    map("x", "∆", ":move '<-2<CR>gv-gv", opts)
+    -- map("x", "º", ":move '>+1<CR>gv-gv", opts)
+    -- map("x", "∆", ":move '<-2<CR>gv-gv", opts)
 
     map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { silent = true })
     map("n", "gD", "<cmd>lua vim.lsp.buf.definition()<cr>", { silent = true })
@@ -72,6 +78,21 @@ local function direct_maps()
     -- helldivers :D
     map("n", "<leader>llk", "<CMD>LspRestart<CR>", opts) -- ▶▶▲
     map("n", "<leader>khjjj", "<CMD>LspRestart<CR>", opts) -- ▲◀▼▼▼
+
+    local ls = require("luasnip")
+    local cmp = require("cmp")
+    vim.keymap.set({ "i", "s" }, "<c-j>", function()
+        if ls.jumpable(-1) then
+            ls.jump(-1)
+        end
+    end, { silent = true })
+    -- <c-k> is my expansion key
+    -- this will expand the current item or jump to the next item within the snippet.
+    vim.keymap.set({ "i", "s" }, "<c-k>", function()
+        if ls.expand_or_jumpable() then
+            ls.expand_or_jump()
+        end
+    end, { silent = true })
 end
 
 local function config()
