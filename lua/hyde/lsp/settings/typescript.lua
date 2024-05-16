@@ -15,17 +15,7 @@ local capabilities = require("hyde.lsp.handlers").capabilities
 --[[ 	vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts or { silent = true }) ]]
 --[[ end ]]
 
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
-    -- if client.server_capabilities.document_formatting then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    --[[ vim.api.nvim_create_autocmd("BufWritePre", { ]]
-    --[[ 	group = augroup, ]]
-    --[[ 	buffer = bufnr, ]]
-    --[[ 	callback = function() ]]
-    --[[ 		vim.lsp.buf.format({ async = false }) ]]
-    --[[ 	end, ]]
-    --[[ }) ]]
     local options = {
         tabstop = 2,
         shiftwidth = 2,
@@ -36,27 +26,34 @@ local on_attach = function(client, bufnr)
         vim.opt[k] = v
     end
 
-    -- end
     require("hyde.lsp.handlers").on_attach(client, bufnr)
 end
 
-require("typescript-tools").setup({
-    on_attach = function(client, bufnr)
-        -- if vim.bo[bufnr].filetype ~= "svelte" then
-        --     client.server_capabilities.document_formatting = false
-        --     client.server_capabilities.document_range_formatting = false
-        -- end
-        ts_utils.setup({})
-        ts_utils.setup_client(client)
-        on_attach(client, bufnr)
-    end,
-    capabilities = capabilities,
+require'lspconfig'.tsserver.setup{
     settings = {
-        expose_as_code_action = "all",
-        complete_function_calls = false,
-    },
-})
+        documentFormatting = true
+    }
+}
 
+-- require("typescript-tools").setup({
+--     on_attach = function(client, bufnr)
+--         print("attaching")
+--         -- if vim.bo[bufnr].filetype ~= "svelte" then
+--         --     client.server_capabilities.document_formatting = false
+--         --     client.server_capabilities.document_range_formatting = false
+--         -- end
+--         ts_utils.setup({})
+--         ts_utils.setup_client(client)
+--         on_attach(client, bufnr)
+--     end,
+--     capabilities = capabilities,
+--     settings = {
+--         expose_as_code_action = "all",
+--         tsserver_format_options = {},
+--         complete_function_calls = false,
+--     },
+-- })
+--
 -- lspconfig.tsserver.setup({
 --     init_options = ts_utils.init_options,
 --     on_attach = function(client, bufnr)
