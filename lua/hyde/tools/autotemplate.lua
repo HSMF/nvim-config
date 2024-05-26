@@ -12,7 +12,10 @@ function M.yas(language)
     end
     local query = vim.treesitter.query.get(language, string.upper(language) .. "AutoTemplate")
     if query == nil then
-        vim.notify("query JSAutoTemplate was nil, did you call setup?", vim.log.levels.ERROR)
+        vim.notify(
+            "query " .. string.upper(language) .. "AutoTemplate was nil, did you call setup?",
+            vim.log.levels.ERROR
+        )
         return
     end
 
@@ -21,7 +24,6 @@ function M.yas(language)
     for id, node in query:iter_captures(string_node, 0) do
         matched = true
         local name = query.captures[id]
-        print(vim.treesitter.get_node_text(node, 0))
         if name == "string_text" then
             collected_info.text = vim.treesitter.get_node_text(node, 0)
         elseif name == "string_outer" then
@@ -33,7 +35,6 @@ function M.yas(language)
         end
     end
     if not matched then
-        print("no match")
         return
     end
     collected_info.text = collected_info.text or ""
@@ -60,12 +61,15 @@ function M.setup()
     end
 end
 
-function M.autotemplate(language)
+function M.autotemplate(language, trigger)
+    if trigger == nil then
+        trigger = "$"
+    end
     local pos = vim.api.nvim_win_get_cursor(0)
     local row = pos[1] - 1
     local col = pos[2]
     M.yas(language)
-    vim.api.nvim_buf_set_text(0, row, col, row, col, { "$" })
+    vim.api.nvim_buf_set_text(0, row, col, row, col, { trigger })
     vim.api.nvim_win_set_cursor(0, { row + 1, col + 1 })
 end
 

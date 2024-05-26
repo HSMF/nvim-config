@@ -1,4 +1,3 @@
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -28,6 +27,8 @@ local my_plugins = {
 --     plugins[#plugins + 1] = value
 -- end
 
-local opts = {}
+local opts = {
+    concurrency = 10,
+}
 
 require("lazy").setup("hyde.plugins", opts)

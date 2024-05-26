@@ -181,7 +181,7 @@ return {
     { "echasnovski/mini.cursorword", version = "*",   opts = {} },
     {
         "akinsho/bufferline.nvim",
-        version = "*",
+        -- version = "*",
         dependencies = "nvim-tree/nvim-web-devicons",
         after = "which-key",
         config = function()

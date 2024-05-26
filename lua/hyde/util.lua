@@ -35,4 +35,23 @@ function M.filter_treesitter_parent(node, pred)
     return nil
 end
 
+---iterate over captures and applies the correct function
+---@param query Query
+---@param node TSNode
+---@param cases table<string, fun(node: TSNode, accum: any)> function to apply to the node, if the capture is not present, it is ignored
+---@param initial_value any
+function M.reduce_captures(query, node, cases, initial_value)
+    if initial_value == nil then
+        initial_value = {}
+    end
+    for id, node in query:iter_captures(node, 0) do
+        local name = query.captures[id]
+        local fun = cases[name]
+        if fun ~= nil then
+            initial_value = fun(node, initial_value)
+        end
+    end
+    return initial_value
+end
+
 return M
