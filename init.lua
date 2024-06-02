@@ -2,4 +2,4 @@ require("hyde.options")
 require("hyde.lazy")
 require("hyde.autocmd")
 
-require("hyde.tools.autotemplate").setup()
+require("hyde.tools")
