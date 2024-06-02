@@ -8,7 +8,7 @@ local function config()
 
     configs.setup({
         incremental_selection = {
-            enable = true
+            enable = true,
         },
         ensure_installed = "all",
         sync_install = false,
@@ -21,7 +21,7 @@ local function config()
         },
         highlight = {
             enable = true,
-            disable = { "org", "latex" },                           -- Remove this to use TS highlighter for some of the highlights (Experimental)
+            disable = { "org", "latex" }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
             additional_vim_regex_highlighting = { "org" }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
         indent = { enable = true, disable = { "yaml" } },
@@ -97,6 +97,19 @@ return {
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                textobjects = {
+                    select = {
+                        enable = true,
+                        keymaps = {
+                            ["ac"] = "@comment.outer",
+                            ["ic"] = "@comment.inner",
+                        },
+                    },
+                },
+            })
+        end,
     },
     {
         "nvim-treesitter/nvim-treesitter-context",
@@ -124,4 +137,21 @@ return {
         config = true, -- or `opts = {}`
     },
 
+    {
+        "CKolkey/ts-node-action",
+        config = function()
+            local nodeactions = require("ts-node-action")
+            local actions = require("ts-node-action.actions")
+            nodeactions.setup({})
+
+            vim.keymap.set(
+                { "n" },
+                "<leader>lx",
+                require("ts-node-action").node_action,
+                { desc = "Trigger Node Action" }
+            )
+
+            vim.keymap.set({ "n" }, "S", require("ts-node-action").node_action, { desc = "Trigger Node Action" })
+        end,
+    },
 }
