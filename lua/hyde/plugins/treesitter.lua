@@ -7,6 +7,9 @@ local function config()
     vim.g.skip_ts_context_commentstring_module = true
 
     configs.setup({
+        incremental_selection = {
+            enable = true
+        },
         ensure_installed = "all",
         sync_install = false,
         ignore_install = { "latex" },
