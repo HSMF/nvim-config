@@ -18,6 +18,7 @@ function M.get_vars()
 return {
     auto_format = false,
     latex_viewer = "zathura",
+    after_conf = function() end
 }]])
     file:close()
 
