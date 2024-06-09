@@ -179,10 +179,6 @@ local function config()
     local lsp = {
         name = "LSP",
         a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
-        d = {
-            "<cmd>lua vim.lsp.buf.definition()<cr>",
-            "jump to definition",
-        },
         D = {
             "<cmd>lua require('telescope.builtin').diagnostics()<cr>",
             "Document diagnostics",
