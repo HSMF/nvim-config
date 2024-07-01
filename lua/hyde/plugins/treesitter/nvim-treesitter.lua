@@ -18,6 +18,17 @@ return function()
         },
     }
 
+    parser_config.gobra = {
+        install_info = {
+            url = "https://github.com/HSMF/tree-sitter-gobra",
+            branch = "main",
+            files = { "src/scanner.c" },
+            generate_requires_npm = false,
+            requires_generate_from_grammar = true,
+            use_makefile = true, -- macOS specific instruction
+        },
+    }
+
     configs.setup({
         modules = {},
         auto_install = true,
