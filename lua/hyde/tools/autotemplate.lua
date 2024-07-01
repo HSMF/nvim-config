@@ -49,7 +49,7 @@ function M.yas(language)
 end
 
 function M.setup()
-    for _, lang in ipairs({ "javascript", "typescript", "tsx"  }) do
+    for _, lang in ipairs({ "javascript", "typescript", "tsx" }) do
         vim.treesitter.query.set(
             lang,
             string.upper(lang) .. "AutoTemplate",

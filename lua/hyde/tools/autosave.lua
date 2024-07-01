@@ -88,7 +88,7 @@ M.start_buf_exec = function()
     if existing_session then
         cleanup(sessions[existing_session])
         vim.api.nvim_win_close(sessions[existing_session].window, false)
-        vim.api.nvim_buf_delete(existing_session, {force = true})
+        vim.api.nvim_buf_delete(existing_session, { force = true })
         sessions[existing_session] = nil
         return
     end
@@ -117,7 +117,7 @@ M.start_buf_exec = function()
     local autocmd = attach_to(output_buffer, execution_scheme.pattern, command)
 
     sessions[output_buffer] =
-    { autocmd = autocmd, parent = current_buffer, filetype = filetype, window = target_window }
+        { autocmd = autocmd, parent = current_buffer, filetype = filetype, window = target_window }
 end
 
 return M

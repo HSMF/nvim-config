@@ -232,7 +232,7 @@ local function config()
         ["P"] = { "<cmd>Telescope projects<cr>", "Projects" },
         R = {
             function()
-                require("hyde.tools.autosave").start_buf_exec()
+                require("hyde.tools.autorun").start_buf_exec()
             end,
             "start live-executing buffer",
         },

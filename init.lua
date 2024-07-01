@@ -8,3 +8,14 @@ local after_conf = require("hyde.util").get_vars().after_conf
 if after_conf ~= nil then
     after_conf()
 end
+
+vim.filetype.add({
+    extension = {
+        gobra = "gobra",
+    },
+})
+vim.treesitter.language.register("gobra", { "gobra" })
+-- vim.treesitter.language.add(
+--     "gobra",
+--     { path = vim.uv.os_homedir() .. "/.config/nvim/parsers/gobra.so", filetype = "gobra" }
+-- )

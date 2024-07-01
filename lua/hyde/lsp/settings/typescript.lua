@@ -29,11 +29,11 @@ local on_attach = function(client, bufnr)
     require("hyde.lsp.handlers").on_attach(client, bufnr)
 end
 
-require'lspconfig'.tsserver.setup{
-    settings = {
-        documentFormatting = true
-    }
-}
+-- require("lspconfig").tsserver.setup({
+--     -- settings = {
+--     --     documentFormatting = true
+--     -- }
+-- })
 
 -- require("typescript-tools").setup({
 --     on_attach = function(client, bufnr)
@@ -53,44 +53,44 @@ require'lspconfig'.tsserver.setup{
 --         complete_function_calls = false,
 --     },
 -- })
---
--- lspconfig.tsserver.setup({
---     init_options = ts_utils.init_options,
---     on_attach = function(client, bufnr)
---         -- if vim.bo[bufnr].filetype ~= "svelte" and vim.bo[bufnr].filetype ~= "typescript" then
---         --     client.server_capabilities.document_formatting = false
---         --     client.server_capabilities.document_range_formatting = false
---         -- end
---         ts_utils.setup({})
---         ts_utils.setup_client(client)
---
---         -- buf_map(bufnr, "n", "<leader>do", ":NodeInspectRun<CR>")
---         --       buf_map(bufnr, "n", "<leader>dq", ":NodeInspectStop<CR>")
---         -- buf_map(bufnr, "n", "<leader>dl", ":NodeInspectStepInto<CR>")
---         -- buf_map(bufnr, "n", "<leader>dj", ":NodeInspectStepOver<CR>")
---         -- buf_map(bufnr, "n", "<leader>dk", ":NodeInspectStepOut<CR>")
---         -- buf_map(bufnr, "n", "<leader>db", ":NodeInspectToggleBreakpoint<CR>")
---         -- auto formatting
---         on_attach(client, bufnr)
---     end,
---     root_dir = util.root_pattern(
---         ".eslintrc",
---         ".eslintrc.js",
---         ".eslintrc.cjs",
---         ".eslintrc.yaml",
---         ".eslintrc.yml",
---         ".eslintrc.json"
---     ),
--- })
 
-lspconfig.emmet_ls.setup({
+lspconfig.tsserver.setup({
+    init_options = ts_utils.init_options,
     on_attach = function(client, bufnr)
-        client.server_capabilities.document_formatting = false
-        client.server_capabilities.document_range_formatting = false
+        -- if vim.bo[bufnr].filetype ~= "svelte" and vim.bo[bufnr].filetype ~= "typescript" then
+        --     client.server_capabilities.document_formatting = false
+        --     client.server_capabilities.document_range_formatting = false
+        -- end
+        ts_utils.setup({})
+        ts_utils.setup_client(client)
+
+        -- buf_map(bufnr, "n", "<leader>do", ":NodeInspectRun<CR>")
+        --       buf_map(bufnr, "n", "<leader>dq", ":NodeInspectStop<CR>")
+        -- buf_map(bufnr, "n", "<leader>dl", ":NodeInspectStepInto<CR>")
+        -- buf_map(bufnr, "n", "<leader>dj", ":NodeInspectStepOver<CR>")
+        -- buf_map(bufnr, "n", "<leader>dk", ":NodeInspectStepOut<CR>")
+        -- buf_map(bufnr, "n", "<leader>db", ":NodeInspectToggleBreakpoint<CR>")
+        -- auto formatting
         on_attach(client, bufnr)
     end,
-    capabilities = capabilities,
+    root_dir = util.root_pattern(
+        ".eslintrc",
+        ".eslintrc.js",
+        ".eslintrc.cjs",
+        ".eslintrc.yaml",
+        ".eslintrc.yml",
+        ".eslintrc.json"
+    ),
 })
+
+-- lspconfig.emmet_ls.setup({
+--     on_attach = function(client, bufnr)
+--         client.server_capabilities.document_formatting = false
+--         client.server_capabilities.document_range_formatting = false
+--         on_attach(client, bufnr)
+--     end,
+--     capabilities = capabilities,
+-- })
 
 lspconfig.svelte.setup({
     on_attach = function(client, bufnr)

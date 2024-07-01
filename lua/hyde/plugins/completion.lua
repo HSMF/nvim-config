@@ -15,6 +15,7 @@ return {
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+            local compare = require("cmp").config.compare
 
             require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -239,6 +240,21 @@ return {
                 -- },
                 experimental = {
                     ghost_text = { hl_group = "Comment" },
+                },
+                sorting = {
+                    comparators = {
+                        -- compare.score_offset, -- not good at all
+                        compare.locality,
+                        compare.recently_used,
+                        compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
+                        compare.offset,
+                        compare.order,
+                        -- compare.scopes, -- what?
+                        -- compare.sort_text,
+                        -- compare.exact,
+                        -- compare.kind,
+                        -- compare.length, -- useless
+                    },
                 },
             })
 

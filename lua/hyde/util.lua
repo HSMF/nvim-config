@@ -55,4 +55,19 @@ function M.reduce_captures(query, node, cases, initial_value)
     return initial_value
 end
 
+local parser_map = {
+    html = "html",
+    typescriptreact = "tsx",
+    javascriptreact = "jsx",
+}
+
+function M.parser_of_filetype(filetype)
+    local parser = parser_map[filetype]
+    if parser == nil then
+        -- maybe it's the same ¯\_(ツ)_/¯
+        return filetype
+    end
+    return parser
+end
+
 return M

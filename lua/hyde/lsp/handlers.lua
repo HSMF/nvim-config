@@ -160,23 +160,23 @@ M.on_attach = function(client, bufnr)
     set_config(client_config)
 
     if client.name == "ocamllsp" then
-        require("which-key").register({
-            l = {
-                u = {
-                    t = {
-                        require("ocaml.actions").update_interface_type,
-                        "Ocaml Update Type",
-                    },
-                },
-            },
-        }, {
-            mode = "n",
-            prefix = "<leader>",
-            buf = bufnr,
-            silent = true, -- use `silent` when creating keymaps
-            noremap = true, -- use `noremap` when creating keymaps
-            nowait = true, -- use `nowait` when creating keymaps
-        })
+        -- require("which-key").register({
+        --     l = {
+        --         u = {
+        --             t = {
+        --                 require("ocaml.actions").update_interface_type,
+        --                 "Ocaml Update Type",
+        --             },
+        --         },
+        --     },
+        -- }, {
+        --     mode = "n",
+        --     prefix = "<leader>",
+        --     buf = bufnr,
+        --     silent = true, -- use `silent` when creating keymaps
+        --     noremap = true, -- use `noremap` when creating keymaps
+        --     nowait = true, -- use `nowait` when creating keymaps
+        -- })
     end
 
     if client.resolved_capabilities and client.resolved_capabilities.code_lens then
