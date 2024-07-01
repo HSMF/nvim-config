@@ -165,26 +165,26 @@ return {
                     }),
 
                     -- ["<tab>"] = false,
-                    ["<tab>"] = cmp.mapping(function(fallback)
-                        if
-                            cmp.visible()
-                            or (luasnip.expand_or_locally_jumpable(-1) ~= nil and luasnip.expand_or_jumpable(-1))
-                        then
-                            vim.api.nvim_err_writeln(
-                                ""
-                                    .. "<C-n>       next\n"
-                                    .. "<C-p>       previous\n"
-                                    .. "<C-d>       scroll down\n"
-                                    .. "<C-u>       scroll up\n"
-                                    .. "<C-e>       abort\n"
-                                    .. "<C-z>       select\n"
-                                    .. "<C-space>   suggest\n"
-                                    .. ""
-                            )
-                            return
-                        end
-                        fallback()
-                    end),
+                    -- ["<tab>"] = cmp.mapping(function(fallback)
+                    --     if
+                    --         cmp.visible()
+                    --         or (luasnip.expand_or_locally_jumpable(-1) ~= nil and luasnip.expand_or_jumpable(-1))
+                    --     then
+                    --         vim.api.nvim_err_writeln(
+                    --             ""
+                    --                 .. "<C-n>       next\n"
+                    --                 .. "<C-p>       previous\n"
+                    --                 .. "<C-d>       scroll down\n"
+                    --                 .. "<C-u>       scroll up\n"
+                    --                 .. "<C-e>       abort\n"
+                    --                 .. "<C-z>       select\n"
+                    --                 .. "<C-space>   suggest\n"
+                    --                 .. ""
+                    --         )
+                    --         return
+                    --     end
+                    --     fallback()
+                    -- end),
                 },
                 formatting = {
                     fields = { "kind", "abbr", "menu" },
