@@ -3,6 +3,8 @@ if not null_ls_status_ok then
     return
 end
 
+local helpers = require("null-ls.helpers")
+
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
@@ -58,6 +60,61 @@ local google_java_format = {
     }),
 }
 
+local gobra = {
+    method = null_ls.methods.DIAGNOSTICS,
+    filetypes = { "gobra", "go" },
+    -- generator = {
+    --     fn = function(params)
+    --         local diagnostics = {}
+    --         -- TODO: make this better
+    --         local output = vim.fn.system({ "/home/hyde/eth/6/bachelor/rungobra.sh", ".", "." })
+    --
+    --         for line in output:gmatch("[^\r\n]+") do
+    --             local match = string.match(line, "([^: ]+):(%d+):(%d+):error: (.+)")
+    --             if match ~= nil then
+    --                 local file, line, col = match
+    --             end
+    --         end
+    --
+    --         return diagnostics
+    --     end,
+    -- },
+    generator = null_ls.generator({
+        command = "rungobra-file.sh",
+        args = function()
+            local out = {
+                vim.fn.expand("%:p"),
+                ".",
+            }
+            return out
+        end,
+        to_stdin = false,
+        from_stderr = false,
+        format = "line",
+        check_exit_code = function(code, stderr)
+            local success = code <= 1
+
+            if not success then
+                -- can be noisy for things that run often (e.g. diagnostics), but can
+                -- be useful for things that run on demand (e.g. formatting)
+                print(stderr)
+            end
+
+            return success
+        end,
+        on_output = helpers.diagnostics.from_patterns({
+            {
+                pattern = [[[^: ]+:(%d+):(%d+):error: (.+)]],
+                groups = { "row", "col", "message" },
+            },
+            {
+                pattern = [[<[^: ]+:(%d+):(%d+)> (.+)]],
+                groups = { "row", "col", "message" },
+            },
+        }),
+    }),
+}
+
 null_ls.setup({
     --[[ debug = true, ]]
     sources = {
@@ -94,5 +151,6 @@ null_ls.setup({
         texfmt,
         asmfmt,
         diagnostics.fish,
+        gobra,
     },
 })
