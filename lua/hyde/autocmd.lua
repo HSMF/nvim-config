@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 local exists_lsp = function(buf)
-    for _, client in ipairs(vim.lsp.get_active_clients()) do
+    for _, client in ipairs(vim.lsp.get_clients()) do
         if client.attached_buffers[buf] ~= nil then
             return true
         end
@@ -93,7 +93,7 @@ if require("hyde.util").get_vars().auto_format then
         if not exists_lsp(buf) then
             return
         end
-        vim.lsp.buf.format()
+        vim.cmd([[silent lua vim.lsp.buf.format()]])
     end)
 end
 
