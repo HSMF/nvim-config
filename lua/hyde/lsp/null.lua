@@ -63,22 +63,6 @@ local google_java_format = {
 local gobra = {
     method = null_ls.methods.DIAGNOSTICS,
     filetypes = { "gobra", "go" },
-    -- generator = {
-    --     fn = function(params)
-    --         local diagnostics = {}
-    --         -- TODO: make this better
-    --         local output = vim.fn.system({ "/home/hyde/eth/6/bachelor/rungobra.sh", ".", "." })
-    --
-    --         for line in output:gmatch("[^\r\n]+") do
-    --             local match = string.match(line, "([^: ]+):(%d+):(%d+):error: (.+)")
-    --             if match ~= nil then
-    --                 local file, line, col = match
-    --             end
-    --         end
-    --
-    --         return diagnostics
-    --     end,
-    -- },
     generator = null_ls.generator({
         command = "rungobra-file.sh",
         args = function()
