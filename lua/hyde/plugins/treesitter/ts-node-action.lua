@@ -4,6 +4,13 @@ return function()
     local builtin_filetypes = require("ts-node-action.filetypes")
     local treesj = require("treesj")
 
+    local js_padding = {
+        [","] = "%s ",
+        [":"] = "%s ",
+        ["{"] = "%s ",
+        ["}"] = " %s",
+    }
+
     -- local toggle_multiline = treesj.toggle
     -- local js = vim.tbl_deep_extend("force", builtin_filetypes.javascript, {
     --     ["object"] = toggle_multiline,
@@ -14,7 +21,8 @@ return function()
     --     ["formal_parameters"] = toggle_multiline,
     --     ["arguments"] = toggle_multiline,
     -- })
-    local js = builtin_filetypes.javascript
+    local js = vim.tbl_deep_extend('force', builtin_filetypes.javascript, {
+    })
 
 
     nodeactions.setup({
