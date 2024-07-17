@@ -135,6 +135,7 @@ append(M, {
         })
     ),
     autos("tt", fmta("\\texttt{<>}", { d(1, get_visual) })),
+    s("gos", { t([[Go standard library]]) }),
 })
 
 for idx = 1, 10, 1 do

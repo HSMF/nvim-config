@@ -1,2 +1,2 @@
 require("hyde.tools.redir")
-require("hyde.tools.autotemplate").setup()
+-- require("hyde.tools.autotemplate").setup()

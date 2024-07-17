@@ -29,6 +29,10 @@ local my_plugins = {
 
 local opts = {
     concurrency = 10,
+    dev = {
+        path = "~/projects/",
+        fallback = true,
+    },
 }
 
 require("lazy").setup("hyde.plugins", opts)

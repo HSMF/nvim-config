@@ -121,6 +121,7 @@
   "pred"
   "implements"
   "pure"
+  "ghost"
 ] @keyword
 
 ; Literals
