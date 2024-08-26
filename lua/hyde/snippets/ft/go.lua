@@ -10,6 +10,7 @@ local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
 
+local rep = require("luasnip.extras").rep
 local ts_locals = require("nvim-treesitter.locals")
 local ts_utils = require("nvim-treesitter.ts_utils")
 local get_node_text = vim.treesitter.get_node_text
@@ -72,6 +73,7 @@ local handlers = {
 
     ["type_identifier"] = function(node, info)
         local text = get_node_text(node, 0)
+
         return { transform(text, info) }
     end,
 }
@@ -80,12 +82,17 @@ local function go_result_type(opts)
     local cursor_node = ts_utils.get_node_at_cursor()
     local scope = ts_locals.get_scope_tree(cursor_node, 0)
 
+    print(vim.inspect(opts))
     local function_node
     for _, v in ipairs(scope) do
         if v:type() == "function_declaration" or v:type() == "method_declaration" or v:type() == "func_literal" then
             function_node = v
             break
         end
+    end
+
+    if true then
+        return { t("nil") }
     end
 
     local query = vim.treesitter.query.get("go", "LuaSnip_Result")
@@ -109,6 +116,67 @@ local function go_return_values(args)
     )
 end
 
+-- (
+--  [
+--   (
+--    (short_var_declaration
+--     left: (expression_list (identifier) @err))
+--    (#match? @err "err")
+--   )
+--   (
+--    (assignment_statement
+--     left: (expression_list (identifier) @err))
+--    (#match? @err "err")
+--   )
+--  ]
+-- ) @assignment
+
+local function slice_eq()
+    local index = 1
+    local arr = 2
+    local slice = 3
+    local endslice = 4
+    return s("sliceeq", {
+        t("forall "),
+        i(index, "i"),
+        t(" int :: {"),
+        i(arr, "arr"),
+        t("["),
+        i(slice, "1"),
+        t(":"),
+        i(endslice, ""),
+        t("]"),
+        t("["),
+        rep(index),
+        t("]} 0 <= "),
+        rep(index),
+        t(" && "),
+        rep(index),
+        t(" < len("),
+        rep(arr),
+        t("["),
+        rep(slice),
+        t(":"),
+        rep(endslice),
+        t("]"),
+        t(") ==> &"),
+        rep(arr),
+        t("["),
+        rep(slice),
+        t(":"),
+        rep(endslice),
+        t("]["),
+        rep(index),
+        t("] == &"),
+        rep(arr),
+        t("["),
+        rep(index),
+        t("+"),
+        rep(slice),
+        t("]"),
+    })
+end
+
 return {
     s("iferr", {
         i(1, { "val" }),
@@ -126,4 +194,26 @@ return {
         t({ "", "}" }),
         i(0),
     }),
+    s("accall", {
+        t("forall "),
+        i(1, "i"),
+        t(" int :: {"),
+        i(2, "arr"),
+        t("["),
+        rep(1),
+        t("]} 0 <= "),
+        rep(1),
+        t(" && "),
+        rep(1),
+        t(" < len("),
+        rep(2),
+        t(") ==> acc(&"),
+        rep(2),
+        t("["),
+        rep(1),
+        t("]"),
+        i(3, ", _"),
+        t(")"),
+    }),
+    slice_eq(),
 }

@@ -24,3 +24,31 @@ autocmd("BufWritePre", {
         end
     end,
 })
+
+vim.api.nvim_buf_create_user_command(0, "GobraRewrite", function(opts)
+    local text = vim.api.nvim_buf_get_lines(0, opts.line1 - 1, opts.line2, false)
+
+    local res = vim.system({ "sha256sum" }, {
+        stdin = text,
+        text = true,
+    }):wait()
+
+    local hash = res.stdout:match("[^ ]+")
+
+    local newtext = {
+        "//gobra:rewrite " .. hash,
+    }
+
+    for _, line in ipairs(text) do
+        newtext[#newtext + 1] = "//gobra:cont " .. line
+    end
+    newtext[#newtext + 1] = "//gobra:end-old-code " .. hash
+    for _, line in ipairs(text) do
+        newtext[#newtext + 1] =  line
+    end
+    newtext[#newtext + 1] = "//gobra:endrewrite " .. hash
+
+    vim.api.nvim_buf_set_lines(0, opts.line1 - 1, opts.line2, false, newtext)
+
+    vim.api.nvim_win_set_cursor(0, { opts.line2 + 3, 0 })
+end, { range = true })

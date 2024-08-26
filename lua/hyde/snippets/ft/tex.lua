@@ -80,6 +80,14 @@ local M = {
         rep(1),
         t("}"),
     }),
+    s("frame", {
+        t({ [[\begin{frame}]], "" }),
+        t("\t\\frametitle{"),
+        i(1),
+        t({ "}", "\t" }),
+        i(0),
+        t({ "", [[\end{frame}]] }),
+    }),
     s(
         { trig = "hr", dscr = "The hyperref package's href{}{} command (for url links)" },
         fmta([[\href{<>}{<>}]], {

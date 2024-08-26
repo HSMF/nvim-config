@@ -12,7 +12,8 @@ local quick_list_enabled_servers = {
     "dockerls",
     "docker_compose_language_service",
     "intelephense",
-    "rescriptls"
+    "rescriptls",
+    "templ",
 }
 
 local function load_all()
