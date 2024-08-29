@@ -1,0 +1,3 @@
+return {
+    { "lorin/vim-alloy" },
+}

@@ -5,6 +5,16 @@ return {
         "stevearc/oil.nvim",
         opts = {
             keymaps = {
+                ["ga"] = {
+                    desc = "git add",
+                    callback = function()
+                        local entry = require("oil").get_cursor_entry()
+                        if entry == nil then
+                            return
+                        end
+                        print(vim.inspect(entry))
+                    end,
+                },
                 ["gd"] = {
                     desc = "Toggle file detail view",
                     callback = function()
@@ -16,6 +26,9 @@ return {
                         end
                     end,
                 },
+            },
+            view_options = {
+                show_hidden = true,
             },
         },
         -- Optional dependencies

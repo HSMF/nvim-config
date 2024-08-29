@@ -18,9 +18,14 @@ return function()
         },
     }
 
+    local gobra_url = "https://github.com/HSMF/tree-sitter-gobra"
+    if vim.fn.filereadable("/home/hyde/eth/6/bachelor/tree-sitter-gobra/") then
+        gobra_url = "/home/hyde/eth/6/bachelor/tree-sitter-gobra/"
+    end
+
     parser_config.gobra = {
         install_info = {
-            url = "https://github.com/HSMF/tree-sitter-gobra",
+            url = gobra_url,
             branch = "main",
             files = { "src/scanner.c" },
             generate_requires_npm = false,
@@ -50,7 +55,7 @@ return function()
         },
         highlight = {
             enable = true,
-            disable = { "org", "latex" },                  -- Remove this to use TS highlighter for some of the highlights (Experimental)
+            disable = { "org", "latex" }, -- Remove this to use TS highlighter for some of the highlights (Experimental)
             additional_vim_regex_highlighting = { "org" }, -- Required since TS highlighter doesn't support all syntax features (conceal)
         },
         indent = { enable = true, disable = { "yaml" } },

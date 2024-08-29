@@ -64,17 +64,22 @@ local gobra = {
     method = null_ls.methods.DIAGNOSTICS,
     filetypes = { "gobra", "go" },
     generator = null_ls.generator({
-        command = "rungobra-file.sh",
+        -- command = "rungobra-file.sh",
+        -- args = function()
+        --     local out = {
+        --         vim.fn.expand("%:p"),
+        --         ".",
+        --     }
+        --     return out
+        -- end,
+        command = "gobra-fakels.py",
         args = function()
-            local out = {
-                vim.fn.expand("%:p"),
-                ".",
-            }
-            return out
+            return { "/tmp/gobraoutput", vim.fn.expand("%:p") }
         end,
         to_stdin = false,
         from_stderr = false,
         format = "line",
+        sources = { "gobra" },
         check_exit_code = function(code, stderr)
             local success = code <= 1
 
@@ -92,7 +97,7 @@ local gobra = {
                 groups = { "row", "col", "message" },
             },
             {
-                pattern = [[<[^: ]+:(%d+):(%d+)> (.+)]],
+                pattern = "[^: ]+:(%d+):(%d+)> (.+)",
                 groups = { "row", "col", "message" },
             },
         }),
