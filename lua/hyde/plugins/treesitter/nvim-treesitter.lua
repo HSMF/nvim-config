@@ -19,7 +19,7 @@ return function()
     }
 
     local gobra_url = "https://github.com/HSMF/tree-sitter-gobra"
-    if vim.fn.filereadable("/home/hyde/eth/6/bachelor/tree-sitter-gobra/") then
+    if vim.fn.isdirectory("/home/hyde/eth/6/bachelor/tree-sitter-gobra/") then
         gobra_url = "/home/hyde/eth/6/bachelor/tree-sitter-gobra/"
     end
 

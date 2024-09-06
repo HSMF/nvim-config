@@ -5,6 +5,10 @@
   (#offset! @injection.content 0 4 0 0)
   (#set! injection.language "gobra"))
 
+((comment) @injection.content
+  (#match? @injection.content "^/\\* *\\@.*\\@ *\\*/$")
+  (#offset! @injection.content 0 4 0 -4)
+  (#set! injection.language "gobra"))
 
 
 (

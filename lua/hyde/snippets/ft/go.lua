@@ -131,6 +131,26 @@ end
 --  ]
 -- ) @assignment
 
+local function slice_invariant()
+    local low = 1
+    local high = 2
+    local name = 3
+
+    return s("slice_invariant", {
+        t("0 <= "),
+        i(low, "lo"),
+        t(" && "),
+        rep(low),
+        t(" <= "),
+        i(high, "hi"),
+        t(" && "),
+        rep(high),
+        t(" <= len("),
+        i(name, "s"),
+        t(")"),
+    })
+end
+
 local function slice_eq()
     local index = 1
     local arr = 2
@@ -177,6 +197,24 @@ local function slice_eq()
     })
 end
 
+local function bytes()
+    local name = 1
+    local start = 2
+    -- local e = 3
+    local perm = 3
+    return s("bytes", {
+        t("acc(sl.Bytes("),
+        i(name, "s"),
+        t(", "),
+        i(start, "0"),
+        t(", len("),
+        rep(name),
+        t(")), "),
+        i(perm, "R40"),
+        t(")"),
+    })
+end
+
 return {
     s("iferr", {
         i(1, { "val" }),
@@ -212,8 +250,10 @@ return {
         t("["),
         rep(1),
         t("]"),
-        i(3, ", _"),
+        i(3, ", R40"),
         t(")"),
     }),
     slice_eq(),
+    slice_invariant(),
+    bytes(),
 }
