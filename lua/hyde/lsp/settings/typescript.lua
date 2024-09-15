@@ -29,7 +29,7 @@ local on_attach = function(client, bufnr)
     require("hyde.lsp.handlers").on_attach(client, bufnr)
 end
 
--- require("lspconfig").tsserver.setup({
+-- require("lspconfig").ts_ls.setup({
 --     -- settings = {
 --     --     documentFormatting = true
 --     -- }
@@ -54,7 +54,7 @@ end
 --     },
 -- })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     init_options = ts_utils.init_options,
     on_attach = function(client, bufnr)
         -- if vim.bo[bufnr].filetype ~= "svelte" and vim.bo[bufnr].filetype ~= "typescript" then

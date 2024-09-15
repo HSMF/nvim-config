@@ -113,7 +113,7 @@ local keymaps = {
     { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" },
     { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>" },
     { "<C-?>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-    { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" },
+    { "gr", "<cmd>Telescope lsp_references<CR>" },
     { "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>' },
     { "gl", "<cmd>lua vim.diagnostic.open_float()<CR>" },
     { "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>' },
@@ -148,7 +148,7 @@ M.go_org_imports = function(wait_ms)
 end
 
 M.on_attach = function(client, bufnr)
-    if client.name == "tsserver" then
+    if client.name == "ts_ls" then
         client.server_capabilities.document_formatting = false
     end
 
@@ -166,7 +166,7 @@ M.on_attach = function(client, bufnr)
 
     local formatting_disabled = {
         "jsonls",
-        "tsserver",
+        "ts_ls",
         "svelte",
     }
 

@@ -159,7 +159,7 @@ local function slice_eq()
     return s("sliceeq", {
         t("forall "),
         i(index, "i"),
-        t(" int :: {"),
+        t(" int :: {&"),
         i(arr, "arr"),
         t("["),
         i(slice, "1"),
@@ -197,12 +197,12 @@ local function slice_eq()
     })
 end
 
-local function bytes()
+local function bytes(lbl)
     local name = 1
     local start = 2
     -- local e = 3
     local perm = 3
-    return s("bytes", {
+    return s(lbl, {
         t("acc(sl.Bytes("),
         i(name, "s"),
         t(", "),
@@ -235,7 +235,7 @@ return {
     s("accall", {
         t("forall "),
         i(1, "i"),
-        t(" int :: {"),
+        t(" int :: {&"),
         i(2, "arr"),
         t("["),
         rep(1),
@@ -255,5 +255,6 @@ return {
     }),
     slice_eq(),
     slice_invariant(),
-    bytes(),
+    bytes("bytes"),
+    bytes("accbytes"),
 }
