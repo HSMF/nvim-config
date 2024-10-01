@@ -130,6 +130,9 @@
   "ghost"
   "apply"
   "with"
+  "match"
+  "outline"
+  "reveal"
 ] @keyword
 
 ; Literals
