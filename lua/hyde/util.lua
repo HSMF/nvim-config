@@ -70,4 +70,48 @@ function M.parser_of_filetype(filetype)
     return parser
 end
 
+--- returns the first integer `i` such that `low <= i <= high and p(index)` or `nil` if none was found
+--- @param p function
+--- @param low number
+--- @param high number
+--- @param index number|nil
+--- @param offset number|nil
+--- @return any
+function M.find_index(p, low, high, index, offset)
+    if offset == nil then
+        offset = 1
+    end
+    if index == nil and offset > 0 then
+        index = low
+    end
+    if index == nil and offset < 0 then
+        index = high
+    end
+    while low <= index and index <= high do
+        if p(index) then
+            return index
+        end
+        index = index + offset
+    end
+end
+
+--- returns the index of first element such that `p(tbl[index])` holds, or nil if none was found
+---@param tbl table
+---@param p function
+---@param index number|nil
+---@param offset number|nil
+---@return number|nil
+function M.tbl_find_index(tbl, p, index, offset)
+    offset = offset or 1
+    index = index or 1
+    while 1 <= index and index <= #tbl do
+        if p(tbl[index]) then
+            return index
+        end
+        index = index + offset
+    end
+
+    return nil
+end
+
 return M

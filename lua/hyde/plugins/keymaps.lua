@@ -48,6 +48,8 @@ local function direct_maps()
     map("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
     map("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
+    vim.keymap.set("n", "<C-f>", "/\\v")
+
     -- indent
     -- map("n", "<S-Tab>", "<<", opts)
     -- map("i", "<S-Tab>", "<C-d>", opts)
