@@ -4,17 +4,19 @@ vim.cmd([[setlocal breakindent]])
 
 local is_linux = vim.fn.has("linux") == 1
 
-local function map(mode, lhs, rhs, opts)
-    if opts == nil then
-        opts = {}
-    end
-    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
-end
+-- local function map(mode, lhs, rhs, opts)
+--     if opts == nil then
+--         opts = {}
+--     end
+--     vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
+-- end
 
-map("n", "j", "gj")
-map("n", "k", "gk")
-map("n", "0", "g0")
-map("n", "$", "g$")
+local map = vim.keymap.set
+
+map({"n", "v"}, "j", "gj")
+map({"n", "v"}, "k", "gk")
+map({"n", "v"}, "0", "g0")
+map({"n", "v"}, "$", "g$")
 vim.opt_local.spell = true
 vim.opt_local.wrap = true
 vim.opt_local.breakindent = true

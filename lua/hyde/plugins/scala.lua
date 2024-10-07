@@ -1,5 +1,5 @@
 return {
-    {
+    --[[ {
         "scalameta/nvim-metals",
         dependencies = {
             "nvim-lua/plenary.nvim",
@@ -24,5 +24,5 @@ return {
                 group = nvim_metals_group,
             })
         end,
-    },
+    }, ]]
 }
