@@ -185,6 +185,9 @@ local function config()
 
     ls.add_snippets("all", {
         s("bad", { t({ "😹👎" }) }),
+        s("ymd", { f(function()
+            return os.date("%Y-%m-%d")
+        end, {}, {}) }),
     })
 
     -- ls.add_snippets("tex", {
