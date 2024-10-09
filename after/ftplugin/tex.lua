@@ -43,7 +43,11 @@ local function map(mode, pat, to)
 end
 
 map("n", "<leader><cr>", "<cmd>VimtexView<CR>")
-map("i", ",,", "\\")
+-- map("i", ",,", "\\")
+
+vim.keymap.set("i", ",,", "\\", {
+    buffer = vim.api.nvim_get_current_buf(),
+})
 
 if is_linux then
     local group = vim.api.nvim_create_augroup("vimtex_event_focus", {
