@@ -114,4 +114,21 @@ function M.tbl_find_index(tbl, p, index, offset)
     return nil
 end
 
+function M.pick_by_host(options)
+    local sysname = vim.loop.os_uname().sysname
+    local hostname = vim.loop.os_gethostname()
+
+    if options[hostname] ~= nil then
+        return options[hostname]
+    end
+
+    if sysname == "Linux" then
+        return options.linux
+    end
+    if sysname == "Darwin" then
+        return options.mac
+    end
+    return options.default
+end
+
 return M
