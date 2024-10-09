@@ -133,24 +133,40 @@ function start_lsp()
         vim.lsp.stop_client(client, false)
     end
 
-    client = vim.lsp.start({
-        name = "gobrapls",
-        cmd = {
+    local cmd = require("hyde.util").pick_by_host({
+        default = {
+            "gobrapls",
+            "--gobra",
+            vim.loop.os_homedir() .. "/opt/gobra/target/scala-2.13/gobra.jar",
+        },
+        linux = {
             "/home/hyde/projects/gobrapls/target/debug/gobrapls",
             "--java",
             "/usr/lib/jvm/java-11-openjdk/bin/java",
             -- "echo",
             "--gobra",
             "/home/hyde/opt/gobra2/target/scala-2.13/gobra.jar",
-            "--gobraflags",
-            " -I /home/hyde/eth/6/bachelor/go/src/",
+            "--stats",
+            "/home/hyde/.local/state/gobrapls-stats",
         },
+        mac = {
+            "gobrapls",
+            "--gobra",
+            vim.loop.os_homedir() .. "/opt/gobra/target/scala-2.13/gobra.jar",
+            "--java",
+            "/usr/local/opt/openjdk@11/bin/java",
+        },
+    })
+
+    client = vim.lsp.start({
+        name = "gobrapls",
+        cmd = cmd,
 
         -- Set the "root directory" to the parent directory of the file in the
         -- current buffer (`ev.buf`) that contains either a "setup.py" or a
         -- "pyproject.toml" file. Files that share a root directory will reuse
         -- the connection to the same LSP server.
-        root_dir = vim.fs.root(0, { ".git", "go.mod" }),
+        root_dir = vim.fs.root(0, { "go.mod" }),
     })
 end
 
@@ -158,4 +174,21 @@ start_lsp()
 
 vim.api.nvim_buf_create_user_command(0, "GobraRestart", function()
     start_lsp()
+end, { range = false })
+
+vim.api.nvim_buf_create_user_command(0, "GobraCancel", function()
+    if client == nil then
+        return
+    end
+    vim.lsp.buf.execute_command({
+        client = client,
+        command = "gobra/cancel",
+    })
+end, { range = false })
+
+vim.api.nvim_buf_create_user_command(0, "ShowTriggers", function()
+    vim.opt_local.conceallevel = 0
+end, { range = false })
+vim.api.nvim_buf_create_user_command(0, "HideTriggers", function()
+    vim.opt_local.conceallevel = 1
 end, { range = false })
