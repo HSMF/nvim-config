@@ -103,6 +103,21 @@ local function direct_maps()
         require("luasnip.loaders.from_lua").load({ paths = { "./lua/hyde/snippets/ft/" } })
     end, opts)
     vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+    local goto_diag = function(direction, severity)
+        severity = severity or "ERROR"
+        return function()
+            vim.diagnostic["goto_" .. direction]({ severity = vim.diagnostic.severity[severity] })
+        end
+    end
+
+    vim.keymap.set("n", "<leader>LJ", goto_diag("next"), {})
+    vim.keymap.set("n", "<leader>LK", goto_diag("prev"), {})
+    vim.keymap.set("n", "<leader>Lj", goto_diag("next"), {})
+    vim.keymap.set("n", "<leader>Lk", goto_diag("prev"), {})
+
+    vim.keymap.set("v", "qq", '"cc<C-r>=<C-r>c<cr><esc>', { desc = "evaluate expression in place" })
+    vim.keymap.set("v", "qw", '"cy`>a = <C-r>=<C-r>c<cr><esc>', { desc = "evaluate expression" })
 end
 
 local function config()
@@ -357,15 +372,6 @@ local function config()
 
     which_key.setup(setup)
     which_key.register(mappings, opts("n"))
-
-    which_key.register({
-        q = {
-            name = "evaluate",
-            q = { '"cc<C-r>=<C-r>c<cr><esc>', "in place" },
-            w = { '"cy`>a = <C-r>=<C-r>c<cr><esc>', "in place" },
-        },
-        l = lsp,
-    }, opts("v"))
 
     -- local term_maps = {
     --     ["<c-w>"] = {
