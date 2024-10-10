@@ -170,7 +170,10 @@ function start_lsp()
     })
 end
 
-start_lsp()
+
+if vim.loop.os_uname().release:match("WSL") == nil then
+    pcall(start_lsp)
+end
 
 vim.api.nvim_buf_create_user_command(0, "GobraRestart", function()
     start_lsp()
