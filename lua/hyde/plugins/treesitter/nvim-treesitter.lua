@@ -103,6 +103,9 @@ return function()
                     -- function calls
                     ["aF"] = { query = "@call.outer", desc = "Select outer part of a function call" },
                     ["iF"] = { query = "@call.inner", desc = "Select inner part of a function call" },
+                    -- returns
+                    ["ar"] = "@return.outer",
+                    ["ir"] = "@return.inner",
                 },
             },
         },
