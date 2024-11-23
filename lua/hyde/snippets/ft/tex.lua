@@ -144,6 +144,7 @@ append(M, {
     ),
     autos("tt", fmta("\\texttt{<>}", { d(1, get_visual) })),
     s("gos", { t([[Go standard library]]) }),
+    s("pmatrix", fmta([[\begin{pmatrix}<>\end{pmatrix}]], { i(1) })),
 })
 
 for idx = 1, 10, 1 do

@@ -102,8 +102,8 @@ vim.api.nvim_buf_create_user_command(0, "GobraRevert", function()
     end
 
     local end_old_code, _ = find_line(start, 1, function(l)
-        local match = string.match(l, [[^[\t ]*//gobra:end%-old%-code ([a-f0-9]+)]])
-        return match == hash
+        local match = string.match(l, "^[\t ]*//gobra:end%-old%-code " .. hash)
+        return match ~= nil
     end)
     if end_old_code == nil then
         print("no middle found")
@@ -114,7 +114,7 @@ vim.api.nvim_buf_create_user_command(0, "GobraRevert", function()
 
     local newlines = {}
     for i, theline in ipairs(lines) do
-        local match = string.match(theline, [[^[\t ]*//gobra:cont ?(.*)]])
+        local match = string.match(theline, "^[\t ]*//gobra:cont ?(.*)")
         if match == nil then
             vim.notify("ERROR IN OLD CODE: on line " .. (i + start) .. ". stopping", vim.log.levels.ERROR)
             return
@@ -148,6 +148,8 @@ function start_lsp()
             "/home/hyde/opt/gobra2/target/scala-2.13/gobra.jar",
             "--stats",
             "/home/hyde/.local/state/gobrapls-stats",
+            "--gobraflags",
+            " --onlyFilesWithHeader " .. " --packageTimeout 60s",
         },
         mac = {
             "gobrapls",
@@ -169,7 +171,6 @@ function start_lsp()
         root_dir = vim.fs.root(0, { "go.mod" }),
     })
 end
-
 
 if vim.loop.os_uname().release:match("WSL") == nil then
     pcall(start_lsp)

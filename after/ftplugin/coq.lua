@@ -28,7 +28,7 @@ local function expand(line, pos)
     local ch = string.sub(line, pos, pos)
 
     if string.match(ch, "[a-zA-Z_.]") then
-        return expand_kw(line, pos)
+        return string.gsub(expand_kw(line, pos), "%.$", "")
     end
 
     if string.match(ch, "%s") or ch == ")" or ch == "(" then
@@ -66,3 +66,5 @@ vim.keymap.set("n", "<leader>ll", "<cmd>CoqToLine<cr>", { buffer = buffer })
 vim.keymap.set("n", "gd", cword_cmd("CoqGotoDef"), { buffer = buffer })
 vim.keymap.set("n", "<leader>lh", cword_cmd("Coq About"), { buffer = buffer })
 vim.keymap.set("n", "K", cword_cmd("Coq Print"), { buffer = buffer })
+vim.keymap.set("n", "?", cword_cmd("Coq Search"), { buffer = buffer })
+vim.keymap.set("n", "gs", cword_cmd("Coq Search"), { buffer = buffer })
