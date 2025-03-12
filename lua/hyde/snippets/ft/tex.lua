@@ -56,6 +56,17 @@ local function in_tikz() -- TikZ picture environment detection
     return in_env("tikzpicture")
 end
 
+local lstlisting = [[
+\begin{figure}
+	\begin{center}
+		\begin{lstlisting}[language=<>]
+			<>
+		\end{lstlisting}
+	\end{center}
+	\caption{<>}\label{fig:<>}
+\end{figure}
+]]
+
 local M = {
     autos(";a", { t([[\alpha]]) }),
     autos(";b", { t([[\beta]]) }),
@@ -93,6 +104,15 @@ local M = {
         fmta([[\href{<>}{<>}]], {
             i(1, "url"),
             i(2, "display name"),
+        })
+    ),
+    s(
+        "listing",
+        fmta(lstlisting, {
+            i(1),
+            i(0),
+            i(2),
+            i(3),
         })
     ),
     autos(
@@ -144,7 +164,10 @@ append(M, {
     ),
     autos("tt", fmta("\\texttt{<>}", { d(1, get_visual) })),
     s("gos", { t([[Go standard library]]) }),
+    s("wrt", { t([[with respect to]]) }),
     s("pmatrix", fmta([[\begin{pmatrix}<>\end{pmatrix}]], { i(1) })),
+    s("ver", fmta([[\verified]], {})),
+    s("nver", fmta([[\notverified]], {})),
 })
 
 for idx = 1, 10, 1 do

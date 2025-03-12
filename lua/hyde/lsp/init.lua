@@ -14,6 +14,7 @@ local quick_list_enabled_servers = {
     "intelephense",
     "rescriptls",
     "templ",
+    "roc_ls",
 }
 
 local function load_all()

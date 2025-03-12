@@ -3,7 +3,11 @@ return function()
 
     require("treesitter-context").setup({ enable = true, max_lines = 1 })
 
-    require("ts_context_commentstring").setup({})
+    require("ts_context_commentstring").setup({
+        languages = {
+            c = { __default = "// %s", __multiline = "/* %s */" },
+        },
+    })
     vim.g.skip_ts_context_commentstring_module = true
 
     local parser_config = require("nvim-treesitter.parsers").get_parser_configs()

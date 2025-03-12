@@ -35,7 +35,9 @@ local auto_expand = {
     [ [[|-]] ] = "⊢",
     [ [[\Lambda]] ] = "Λ",
     [ [[\lambda]] ] = "λ",
-    [ [[\tau]] ] = "τ"
+    [ [[\tau]] ] = "τ",
+    [ [[\delta]] ] = "δ",
+    [ [[\gamma]] ] = "γ",
 }
 
 local words = {

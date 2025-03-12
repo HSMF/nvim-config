@@ -132,7 +132,7 @@ null_ls.setup({
         --diagnostics.eslint_d,
         --code_actions.eslint_d,
         -- formatting.markdown_toc,
-        formatting.mdformat,
+        -- formatting.mdformat,
         formatting.shfmt,
         formatting.google_java_format.with({ extra_args = { "--aosp" } }),
         -- diagnostics.flake8

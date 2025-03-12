@@ -19,7 +19,7 @@ return {
                         require("grapple").toggle()
                     end,
                 },
-                { "<leader>m", require("grapple").toggle_tags },
+                { "<leader>M", require("grapple").toggle_tags },
             })
         end,
     },
