@@ -109,6 +109,23 @@ local function is_comment_node(node)
     return node:type() == "comment"
 end
 
+local function return_type_text(return_type)
+    if return_type == "void" then
+        return nil
+    elseif return_type == "errval_t" then
+        return "error value indicating the success of the operation"
+    end
+    return ""
+end
+
+local function param_text(param)
+    if param == "mm" then
+        return " the memory manager"
+    else
+        return nil
+    end
+end
+
 function M.generate_doc_comment()
     local cursor_node = ts_utils.get_node_at_cursor()
     local func_node = filter_treesitter_parent(cursor_node, function(v)
@@ -127,7 +144,6 @@ function M.generate_doc_comment()
         return
     end
     local row1, _, _, _ = func_node:range()
-    print(info.return_type)
     local text = {
         "/**",
         " * @brief",
@@ -138,12 +154,14 @@ function M.generate_doc_comment()
     end
 
     for _, param in ipairs(info.parameters) do
-        text[#text + 1] = string.format(" * @param %s", param)
+        local doc_prompt = param_text(param) or ""
+        text[#text + 1] = string.format(" * @param %s%s", param, doc_prompt)
     end
 
-    if info.return_type ~= "void" then
+    local return_text = return_type_text(info.return_type)
+    if return_text ~= nil then
         text[#text + 1] = " *"
-        text[#text + 1] = string.format(" * @return ")
+        text[#text + 1] = string.format(" * @return %s", return_text)
     end
     text[#text + 1] = " */"
     vim.api.nvim_buf_set_lines(0, row1, row1, true, text)
