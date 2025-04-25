@@ -112,7 +112,7 @@ local keymaps = {
     { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
     { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" },
     { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>" },
-    { "<C-?>", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+    { "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
     { "gr", "<cmd>Telescope lsp_references<CR>" },
     { "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>' },
     { "gl", "<cmd>lua vim.diagnostic.open_float()<CR>" },
@@ -127,9 +127,14 @@ end
 
 local function lsp_keymaps(bufnr)
     for _, v in ipairs(keymaps) do
-        v.buffer = bufnr
+        if type(v[1]) == "string" and type(v[2]) == "string" then
+            vim.keymap.set("n", v[1], v[2], { silent = true, buffer = bufnr })
+        end
     end
-    require("which-key").add(keymaps)
+    -- for _, v in ipairs(keymaps) do
+    --     v.buffer = bufnr
+    -- end
+    -- require("which-key").add(keymaps)
     vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({async = true})' ]])
 end
 

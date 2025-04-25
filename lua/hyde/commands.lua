@@ -40,3 +40,10 @@ end, {
     nargs = "*",
     bang = true,
 })
+
+vim.api.nvim_create_user_command("ShareLocation", function()
+    local file = vim.fn.expand("%")
+    local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    local res = string.format("%s:%d", file, line)
+    vim.fn.setreg("+", res)
+end, {})

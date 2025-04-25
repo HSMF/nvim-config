@@ -129,7 +129,7 @@ end
 function M.generate_doc_comment()
     local cursor_node = ts_utils.get_node_at_cursor()
     local func_node = filter_treesitter_parent(cursor_node, function(v)
-        return v:type() == "function_definition"
+        return v:type() == "function_definition" or v:type() == "declaration"
     end)
     if func_node == nil then
         warn("no function node")
