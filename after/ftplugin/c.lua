@@ -24,3 +24,5 @@ vim.api.nvim_buf_create_user_command(0, "SwitchHeader", function()
     local bufnr = vim.uri_to_bufnr(position.result)
     vim.api.nvim_win_set_buf(0, bufnr)
 end, {})
+
+DONTFORMATBUF[vim.api.nvim_get_current_buf()] = true

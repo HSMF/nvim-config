@@ -13,6 +13,7 @@ end
 vim.filetype.add({
     extension = {
         gobra = "gobra",
+        ll = "llvm",
     },
 })
 vim.treesitter.language.register("gobra", { "gobra" })
