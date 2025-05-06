@@ -15,6 +15,7 @@ local quick_list_enabled_servers = {
     "rescriptls",
     "templ",
     "roc_ls",
+    "elmls",
 }
 
 local function load_all()
