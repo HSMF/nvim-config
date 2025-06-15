@@ -1,3 +1,3 @@
 return {
-    { "rescript-lang/vim-rescript", tag = "v2.1.0" },
+    { "rescript-lang/vim-rescript", tag = "v2.1.0", lazy = true },
 }
