@@ -41,9 +41,34 @@ end, {
     bang = true,
 })
 
+local function esc(x)
+    return (
+        x:gsub("%%", "%%%%")
+            :gsub("^%^", "%%^")
+            :gsub("%$$", "%%$")
+            :gsub("%(", "%%(")
+            :gsub("%)", "%%)")
+            :gsub("%.", "%%.")
+            :gsub("%[", "%%[")
+            :gsub("%]", "%%]")
+            :gsub("%*", "%%*")
+            :gsub("%+", "%%+")
+            :gsub("%-", "%%-")
+            :gsub("%?", "%%?")
+    )
+end
+
 vim.api.nvim_create_user_command("ShareLocation", function()
-    local file = vim.fn.expand("%")
+    local root = vim.fs.root(0, { ".git" })
+    local file
+    if root == nil then
+        file = vim.fn.expand("%")
+    else
+        file = vim.fn.expand("%:p")
+        file = string.gsub(file, "^" .. esc(root) .. "/?", "")
+    end
     local line, _ = unpack(vim.api.nvim_win_get_cursor(0))
     local res = string.format("%s:%d", file, line)
+
     vim.fn.setreg("+", res)
 end, {})
