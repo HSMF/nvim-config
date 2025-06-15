@@ -37,3 +37,5 @@ vim.api.nvim_buf_create_user_command(0, "MakeAsync", function(opts)
     local new = before .. "async " .. after
     vim.api.nvim_buf_set_lines(0, start_row, start_row + 1, true, { new })
 end, {})
+
+require("hyde.lsp").load_server("typescript")

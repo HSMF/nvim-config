@@ -149,7 +149,7 @@ function start_lsp()
             "--stats",
             "/home/hyde/.local/state/gobrapls-stats",
             "--gobraflags",
-            " --onlyFilesWithHeader " .. " --packageTimeout 60s",
+            " --onlyFilesWithHeader " .. " --packageTimeout 60s" .. " --disableNL",
         },
         mac = {
             "gobrapls",
@@ -172,9 +172,9 @@ function start_lsp()
     })
 end
 
-if vim.loop.os_uname().release:match("WSL") == nil then
-    pcall(start_lsp)
-end
+-- if vim.loop.os_uname().release:match("WSL") == nil then
+--     pcall(start_lsp)
+-- end
 
 vim.api.nvim_buf_create_user_command(0, "GobraRestart", function()
     start_lsp()
@@ -196,3 +196,5 @@ end, { range = false })
 vim.api.nvim_buf_create_user_command(0, "HideTriggers", function()
     vim.opt_local.conceallevel = 1
 end, { range = false })
+
+require("hyde.lsp").load_server("go")

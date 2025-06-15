@@ -30,3 +30,5 @@ require("nvim-surround").buffer_setup({
         },
     },
 })
+
+require("hyde.lsp").load_server("lua")

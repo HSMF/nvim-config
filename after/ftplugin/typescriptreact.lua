@@ -5,3 +5,5 @@ vim.api.nvim_set_keymap("i", "$", "", {
         require("autotemplate").autotemplate("tsx")
     end,
 })
+
+require("hyde.lsp").load_server("typescript")

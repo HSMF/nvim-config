@@ -33,4 +33,16 @@ fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
 }
 ]])),
     }),
+    s(
+        "extern-fn",
+        fmta(
+            [[
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn <>(<>) <> {
+    <>
+}
+            ]],
+            { i(1, "func"), i(2), i(3), i(0) }
+        )
+    ),
 }

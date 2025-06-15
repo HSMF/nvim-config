@@ -1,4 +1,4 @@
-require("lspconfig").pyright.setup({
+require("lspconfig").basedpyright.setup({
     settings = {
         -- venvPath = "/home/hyde/.local/share/py-venv/",
         venvPath = "/home/hyde/Documents/programming/earley/earley-rs/",

@@ -8,7 +8,6 @@ local quick_list_enabled_servers = {
     "bashls",
     "julials",
     "elixirls",
-    "clangd",
     "dockerls",
     "docker_compose_language_service",
     "intelephense",
@@ -55,12 +54,29 @@ function M.setup()
     })
     local handlers = require("hyde.lsp.handlers")
     handlers.setup()
-    load_all()
+    -- load_all()
     require("hyde.lsp.null")
 
     for _, server in ipairs(quick_list_enabled_servers) do
         nvim_lspconfig[server].setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
     end
+end
+
+local loaded_servers = {}
+function M.load_server(name)
+    if loaded_servers[name] ~= nil then
+        return
+    end
+
+    local ok, _ = pcall(require, "hyde.lsp.settings." .. name)
+    if ok then
+        loaded_servers[name] = true
+        return
+    end
+
+    local handlers = require("hyde.lsp.handlers")
+    require("lspconfig").setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
+    loaded_servers[name] = true
 end
 
 return M

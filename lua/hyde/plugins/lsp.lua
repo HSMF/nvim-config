@@ -19,7 +19,8 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope.nvim", -- optional
         },
-        branch = "2.x.x",
+        version = "^5",
+        lazy = false,
     },
     "nvim-lua/lsp_extensions.nvim",
     "nvimtools/none-ls.nvim",
@@ -30,6 +31,6 @@ return {
     "jose-elias-alvarez/nvim-lsp-ts-utils",
 
     {
-        'mfussenegger/nvim-jdtls'
-    }
+        "mfussenegger/nvim-jdtls",
+    },
 }
