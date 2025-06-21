@@ -75,7 +75,7 @@ function M.load_server(name)
     end
 
     local handlers = require("hyde.lsp.handlers")
-    require("lspconfig").setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
+    require("lspconfig")[name].setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
     loaded_servers[name] = true
 end
 
