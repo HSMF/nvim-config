@@ -104,7 +104,8 @@ config["on_attach"] = function(client, bufnr)
 end
 
 local config = {
-    cmd = { mason_path .. "/bin/jdtls" },
+    -- cmd = { mason_path .. "/bin/jdtls" },
+    cmd = { "jdtls" },
     settings = {
         java = {
             format = {
@@ -121,5 +122,38 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
         local _, _ = pcall(vim.lsp.codelens.refresh)
     end,
 })
+
+vim.keymap.set({ "v" }, "<leader>m", "<cmd>'<,'>lua require('jdtls').extract_method(true)<cr>")
+
+local function file_exists(path)
+    local stat = vim.loop.fs_stat(path)
+    return stat and stat.type == "file"
+end
+
+vim.api.nvim_buf_create_user_command(0, "GoToTest", function()
+    local filename = vim.fn.expand("%")
+    local dir = vim.fn.fnamemodify(filename, ":h")
+    local file = vim.fn.fnamemodify(filename, ":t")
+
+    local newfilename = filename
+    if dir:match("/main/") ~= nil then
+        dir = dir:gsub("/main/", "/test/")
+
+        if file_exists(dir .. "/" .. vim.fn.fnamemodify(file, ":r") .. ".java") then
+            newfilename = dir .. "/" .. vim.fn.fnamemodify(file, ":r") .. ".java"
+        else
+            newfilename = dir .. "/Test" .. file
+        end
+    else
+        dir = dir:gsub("/test/", "/main/")
+        local newfile = file:gsub("^Test", ""):gsub("Test.java$", ".java")
+        newfilename = dir .. "/" .. newfile
+
+        if not file_exists(newfilename) then
+            newfilename = vim.fn.fnamemodify(newfilename, ":h")
+        end
+    end
+    vim.cmd.edit({ args = { newfilename } })
+end, {})
 
 require("jdtls").start_or_attach(config)
