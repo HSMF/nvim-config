@@ -156,4 +156,8 @@ vim.api.nvim_buf_create_user_command(0, "GoToTest", function()
     vim.cmd.edit({ args = { newfilename } })
 end, {})
 
+vim.api.nvim_buf_create_user_command(0, "RefactorBuilder", function()
+    require("java-builder").create_builder()
+end, {})
+
 require("jdtls").start_or_attach(config)
