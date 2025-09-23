@@ -131,6 +131,18 @@ local function lsp_keymaps(bufnr)
             vim.keymap.set("n", v[1], v[2], { silent = true, buffer = bufnr })
         end
     end
+
+    local o = { nowait = true, remap = false, silent = true, buffer = bufnr }
+
+    vim.keymap.set("v", "<leader>la", function()
+        vim.lsp.buf.code_action({
+            range = {
+                start = vim.api.nvim_buf_get_mark(0, "<"),
+                ["end"] = vim.api.nvim_buf_get_mark(0, ">"),
+            },
+        })
+    end, o)
+
     -- for _, v in ipairs(keymaps) do
     --     v.buffer = bufnr
     -- end

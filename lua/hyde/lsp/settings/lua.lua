@@ -77,6 +77,7 @@ local opts = {
             workspace = default_workspace,
         },
     },
+    on_attach = require("hyde.lsp.handlers").on_attach,
 }
 
 require("lspconfig").lua_ls.setup(opts)
