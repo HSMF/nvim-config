@@ -1,18 +1,19 @@
-
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        config = require"hyde.plugins.treesitter.nvim-treesitter",
+        config = require "hyde.plugins.treesitter.nvim-treesitter",
         build = ":TSUpdate",
         dependencies = {
             { url = "https://gitlab.com/HiPhish/rainbow-delimiters.nvim" },
         },
+        lazy = false,
+        branch = "main",
     },
-    "nvim-treesitter/playground",
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
+        branch = "main",
     },
     {
         "nvim-treesitter/nvim-treesitter-context",

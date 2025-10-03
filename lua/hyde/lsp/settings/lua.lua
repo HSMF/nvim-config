@@ -43,8 +43,6 @@ local add_packages_to_workspace = function(packages, config)
     end
 end
 
-local lspconfig = require("lspconfig")
-
 local make_on_new_config = function(on_new_config, _)
     return lspconfig.util.add_hook_before(on_new_config, function(new_config, _)
         local server_name = new_config.name
@@ -57,9 +55,9 @@ local make_on_new_config = function(on_new_config, _)
     end)
 end
 
-lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
-    on_new_config = make_on_new_config(lspconfig.util.default_config.on_new_config),
-})
+-- lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+--     on_new_config = make_on_new_config(lspconfig.util.default_config.on_new_config),
+-- })
 
 local opts = {
     settings = {
@@ -80,6 +78,7 @@ local opts = {
     on_attach = require("hyde.lsp.handlers").on_attach,
 }
 
-require("lspconfig").lua_ls.setup(opts)
+vim.lsp.config("lua_ls", opts)
+vim.lsp.enable("lua_ls")
 
 return opts

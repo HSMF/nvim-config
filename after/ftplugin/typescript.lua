@@ -1,5 +1,4 @@
-local ts_locals = require("nvim-treesitter.locals")
-local ts_utils = require("nvim-treesitter.ts_utils")
+local util = require("hyde.util")
 
 vim.api.nvim_set_keymap("i", "$", "", {
     nowait = true,
@@ -10,7 +9,7 @@ vim.api.nvim_set_keymap("i", "$", "", {
 })
 
 vim.api.nvim_buf_create_user_command(0, "MakeAsync", function(opts)
-    local cursor_node = ts_utils.get_node_at_cursor()
+    local cursor_node = util.get_node_at_cursor()
     local node = cursor_node
     while node ~= nil do
         if node:type() == "arrow_function" then

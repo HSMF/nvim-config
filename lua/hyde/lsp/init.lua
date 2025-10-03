@@ -41,11 +41,24 @@ local function load_all()
 end
 
 function M.setup()
-    local nvim_lspconfig = require("lspconfig")
-    local global_capabilities = vim.lsp.protocol.make_client_capabilities()
-    global_capabilities.textDocument.completion.completionItem.snippetSupport = true
-    nvim_lspconfig.util.default_config = vim.tbl_extend("force", nvim_lspconfig.util.default_config, {
-        capabilities = global_capabilities,
+    -- local global_capabilities = vim.lsp.protocol.make_client_capabilities()
+    -- global_capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+    vim.lsp.config("*", {
+        on_attach = require("hyde.lsp.handlers").on_attach,
+        capabilities = require("hyde.lsp.handlers").capabilities,
+    })
+
+    vim.lsp.config("*", {
+        capabilities = {
+            textDocument = {
+                completion = {
+                    completionItem = {
+                        snippetSupport = true
+                    }
+                }
+            }
+        }
     })
     vim.diagnostic.config({
         virtual_text = true,
@@ -54,11 +67,13 @@ function M.setup()
     })
     local handlers = require("hyde.lsp.handlers")
     handlers.setup()
+
+    require("hyde.lsp.settings.omnisharp")
     -- load_all()
     require("hyde.lsp.null")
 
     for _, server in ipairs(quick_list_enabled_servers) do
-        nvim_lspconfig[server].setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
+        vim.lsp.enable(server)
     end
 end
 
@@ -74,8 +89,7 @@ function M.load_server(name)
         return
     end
 
-    local handlers = require("hyde.lsp.handlers")
-    require("lspconfig")[name].setup({ on_attach = handlers.on_attach, capabilities = handlers.capabilities })
+    vim.lsp.config(name)
     loaded_servers[name] = true
 end
 

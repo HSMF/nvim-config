@@ -1,6 +1,5 @@
 local M = {}
 
-local nvim_lspconfig = require("lspconfig")
 local handlers = require("hyde.lsp.handlers")
 
 M.make_impl = function(target, iface)
@@ -26,7 +25,7 @@ M.impl = function()
     end)
 end
 
-nvim_lspconfig.gopls.setup({
+vim.lsp.config("gopls", {
     on_attach = function(client, bufnr)
         handlers.on_attach(client, bufnr)
     end,
@@ -40,5 +39,6 @@ nvim_lspconfig.gopls.setup({
         },
     },
 })
+vim.lsp.enable("gopls")
 
 return M

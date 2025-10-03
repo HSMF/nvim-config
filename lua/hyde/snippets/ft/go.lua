@@ -11,8 +11,7 @@ local d = ls.dynamic_node
 local r = ls.restore_node
 
 local rep = require("luasnip.extras").rep
-local ts_locals = require("nvim-treesitter.locals")
-local ts_utils = require("nvim-treesitter.ts_utils")
+local util = require("hyde.util")
 local get_node_text = vim.treesitter.get_node_text
 
 vim.treesitter.query.set(
@@ -79,10 +78,10 @@ local handlers = {
 }
 
 local function go_result_type(opts)
-    local cursor_node = ts_utils.get_node_at_cursor()
-    local scope = ts_locals.get_scope_tree(cursor_node, 0)
+    local cursor_node = util.get_node_at_cursor()
+    if cursor_node == nil then return end
+    local scope = util.get_scope_tree(cursor_node, 0)
 
-    print(vim.inspect(opts))
     local function_node
     for _, v in ipairs(scope) do
         if v:type() == "function_declaration" or v:type() == "method_declaration" or v:type() == "func_literal" then

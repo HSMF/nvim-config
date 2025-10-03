@@ -10,8 +10,7 @@ local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
 
-local ts_locals = require("nvim-treesitter.locals")
-local ts_utils = require("nvim-treesitter.ts_utils")
+local util = require("hyde.util")
 local get_node_text = vim.treesitter.get_node_text
 
 vim.treesitter.query.set(
@@ -31,8 +30,9 @@ vim.treesitter.query.set(
 )
 
 local function todo_info()
-    local cursor_node = ts_utils.get_node_at_cursor()
-    local scope = ts_locals.get_scope_tree(cursor_node, 0)
+    local cursor_node = util.get_node_at_cursor()
+    if cursor_node == nil then return end
+    local scope = util.get_scope_tree(cursor_node, 0)
     local around_cursor = scope[1]
     local compilation_unit
     for j = #scope, 1, -1 do

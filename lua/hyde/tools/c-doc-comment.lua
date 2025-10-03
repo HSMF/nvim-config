@@ -1,4 +1,4 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
+local get_node_at_cursor = require("hyde.util").get_node_at_cursor
 
 local M = {}
 
@@ -127,7 +127,7 @@ local function param_text(param)
 end
 
 function M.generate_doc_comment()
-    local cursor_node = ts_utils.get_node_at_cursor()
+    local cursor_node = get_node_at_cursor()
     local func_node = filter_treesitter_parent(cursor_node, function(v)
         return v:type() == "function_definition" or v:type() == "declaration"
     end)

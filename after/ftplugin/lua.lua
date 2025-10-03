@@ -1,4 +1,4 @@
-local ts_utils = require("nvim-treesitter.ts_utils")
+local util = require("hyde.util")
 local string_context = vim.treesitter.query.parse(
     "lua",
     [[
@@ -10,7 +10,7 @@ require("nvim-surround").buffer_setup({
     surrounds = {
         ["]"] = {
             add = function()
-                local cursor_node = ts_utils.get_node_at_cursor()
+                local cursor_node = util.get_node_at_cursor()
                 local string_node = require("hyde.util").filter_treesitter_parent(cursor_node, function(v)
                     return v:type() == "string"
                 end)

@@ -140,6 +140,6 @@ null_ls.setup({
         texfmt,
         asmfmt,
         diagnostics.fish,
-        gobra,
+        -- gobra,
     },
 })
