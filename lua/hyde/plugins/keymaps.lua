@@ -657,11 +657,11 @@ local function config()
             "<cmd>LspInstallInfo<cr>",
             desc = "Installer Info",
         },
-        {
-            "<leader>la",
-            "<cmd>lua vim.lsp.buf.code_action()<cr>",
-            desc = "Code Action",
-        },
+        -- {
+        --     "<leader>la",
+        --     "<cmd>lua vim.lsp.buf.code_action()<cr>",
+        --     desc = "Code Action",
+        -- },
         {
             "<leader>lq",
             "<cmd>lua vim.diagnostic.setloclist()<cr>",

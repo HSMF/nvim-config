@@ -15,6 +15,9 @@ vim.filetype.add({
         gobra = "gobra",
         ll = "llvm",
     },
+    filename = {
+        ["Hakefile"] = "haskell",
+    },
 })
 vim.treesitter.language.register("gobra", { "gobra" })
 -- vim.treesitter.language.add(

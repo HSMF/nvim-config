@@ -10,6 +10,7 @@ local c = ls.choice_node
 local d = ls.dynamic_node
 local r = ls.restore_node
 
+local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 local util = require("hyde.util")
 local get_node_text = vim.treesitter.get_node_text
@@ -79,29 +80,29 @@ local handlers = {
 
 local function go_result_type(opts)
     local cursor_node = util.get_node_at_cursor()
-    if cursor_node == nil then return end
-    local scope = util.get_scope_tree(cursor_node, 0)
-
-    local function_node
-    for _, v in ipairs(scope) do
-        if v:type() == "function_declaration" or v:type() == "method_declaration" or v:type() == "func_literal" then
-            function_node = v
-            break
-        end
+    if cursor_node == nil then
+        return
     end
 
-    if true then
-        return { t("nil") }
+    local function_node = util.filter_treesitter_parent(cursor_node, function(v)
+        return v:type() == "function_declaration" or v:type() == "method_declaration" or v:type() == "func_literal"
+    end)
+
+    if function_node == nil then
+        return i(1, "nil")
     end
 
     local query = vim.treesitter.query.get("go", "LuaSnip_Result")
+    if query == nil then
+        return i(1, "nil")
+    end
     for _, node in query:iter_captures(function_node, 0) do
         if handlers[node:type()] then
             return handlers[node:type()](node, opts)
         end
     end
 
-    return { t("nil") }
+    return {}
 end
 
 local function go_return_values(args)
@@ -214,6 +215,84 @@ local function bytes(lbl)
     })
 end
 
+local function pforall()
+    local j = 1
+    local low = 2
+    local high = 3
+    local property = 4
+    local trigger = 5
+
+    return s("pforall", {
+        t("invariant InRangeInc("),
+        rep(j),
+        t(", "),
+        rep(low),
+        t(", "),
+        rep(high),
+        t({ ")", "" }),
+        t("invariant forall i0 int :: { "),
+        i(trigger),
+        t(" }"),
+        t(" InRange(i0, "),
+        rep(low),
+        t(", "),
+        rep(j),
+        t({ ") ==> ", "" }),
+        t("\t"),
+        i(property, "true"),
+        t({ "", "" }),
+        t("decreases "),
+        rep(high),
+        t(" - "),
+        rep(low),
+        t({ "", "" }),
+        t("for "),
+        i(j, "j"),
+        t(" := "),
+        i(low, "0"),
+        t("; "),
+        rep(j),
+        t(" < "),
+        i(high, "len(s)"),
+        t("; "),
+        rep(j),
+        t({ "++ {", "\t" }),
+        i(0),
+        t({ "", "}" }),
+    })
+end
+
+local function outline()
+    return s(
+        "outline",
+        fmt(
+            [[
+requires {}
+ensures {}
+decreases
+outline (
+    {}
+)
+        ]],
+            { i(1), i(2), i(0) }
+        )
+    )
+end
+
+local function block()
+    return s(
+        "block",
+        fmt(
+            [[
+/* @
+{}
+@ */
+        ]],
+            { i(0) }
+        )
+    )
+end
+
 return {
     s("iferr", {
         i(1, { "val" }),
@@ -284,4 +363,7 @@ return {
         i(0),
         t({ "", "}" }),
     }),
+    pforall(),
+    outline(),
+    block(),
 }

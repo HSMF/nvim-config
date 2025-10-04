@@ -37,7 +37,31 @@ return function()
         },
     }
 
-    require "nvim-treesitter".install()
+    require("nvim-treesitter").install()
+
+    -- automatically start treesitter for all available languages
+    -- this avoids errors on unsupported filetypes
+    local treesitter_filetypes = {}
+    for _, lang in ipairs(require("nvim-treesitter").get_available()) do
+        local fts = vim.treesitter.language.get_filetypes(lang)
+        for _, ft in ipairs(fts) do
+            treesitter_filetypes[ft] = true
+        end
+    end
+
+    -- disable file types like this:
+    treesitter_filetypes["tex"] = false
+    treesitter_filetypes["org"] = false
+
+    vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+            local ft = args.match
+            if treesitter_filetypes[ft] then
+                vim.treesitter.start()
+            end
+        end,
+        pattern = "*",
+    })
 
     -- TODO: migrate
     -- configs.setup({

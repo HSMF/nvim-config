@@ -4,6 +4,13 @@
 (field_identifier) @property
 (identifier) @variable
 
+(const_declaration
+  (const_spec
+    name: (identifier) @constant))
+
+(adt_clause
+  variant: (_) @constructor)
+
 ; Function calls
 
 (call_expression
@@ -12,6 +19,11 @@
 (call_expression
   function: (identifier) @function.builtin
   (#match? @function.builtin "^(append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover|acc|old|before)$"))
+
+(call_expression
+  function: (identifier) @constructor
+  (#match? @constructor "^(new.|New)"))
+
 
 (call_expression
   function: (selector_expression
@@ -103,6 +115,7 @@
   "return"
   "select"
   "struct"
+  "adt"
   "switch"
   "type"
   "var"
@@ -135,6 +148,7 @@
   "reveal"
 ] @keyword
 
+
 ; Literals
 
 (binary_expression "in" @operator)
@@ -161,3 +175,12 @@
 ] @constant.builtin
 
 (comment) @comment
+
+
+"assume" @comment.todo
+
+(call_expression
+    function: (identifier) @comment.todo
+    (#eq? @comment.todo "TODO")
+  )
+
