@@ -9,6 +9,7 @@ return function()
         },
     })
     vim.g.skip_ts_context_commentstring_module = true
+    vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime")
 
     require("nvim-treesitter.parsers").rescript = {
         install_info = {
