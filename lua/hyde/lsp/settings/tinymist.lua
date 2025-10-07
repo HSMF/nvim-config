@@ -1,7 +1,6 @@
-require("lspconfig").tinymist.setup({
-    on_attach = require("hyde.lsp.handlers").on_attach,
-    capabilities = require("hyde.lsp.handlers").capabilities,
+vim.lsp.config("tinymist", {
     settings = {
         formatterMode = "typstyle",
-    },
+    }
 })
+vim.lsp.enable("tinymist")
