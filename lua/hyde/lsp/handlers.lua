@@ -26,20 +26,25 @@ end
 
 M.setup = function()
     local signs = {
-        { name = "DiagnosticSignError", text = icons.error },
-        { name = "DiagnosticSignWarn", text = icons.warningTriangle },
-        { name = "DiagnosticSignHint", text = icons.info },
-        { name = "DiagnosticSignInfo", text = icons.questionCircle },
+        signs = {
+            text = {
+                [vim.diagnostic.severity.ERROR] = icons.error,
+                [vim.diagnostic.severity.WARN] = icons.warningCircle,
+                [vim.diagnostic.severity.INFO] = icons.info,
+                [vim.diagnostic.severity.HINT] = icons.questionCircle,
+            },
+            linehl = {
+                [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+                [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+                [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+                [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+            }
+        },
     }
-    for _, sign in ipairs(signs) do
-        vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-    end
 
     local config = {
         virtual_text = true,
-        signs = {
-            active = signs,
-        },
+        signs = signs,
         update_in_insert = true,
         underline = true,
         severity_sort = true,
@@ -92,32 +97,32 @@ local function lsp_highlight_document(client)
 end
 
 local keymaps = {
-    { "<leader>l", group = "LSP" },
-    { "<leader>lD", "<cmd>lua require('telescope.builtin').diagnostics()<cr>", desc = "Document diagnostics" },
-    { "<leader>lI", "<cmd>LspInstallInfo<cr>", desc = "Installer Info" },
-    { "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", desc = "Workspace Symbols" },
-    { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", desc = "Code Action" },
-    { "<leader>lf", "<cmd>lua vim.lsp.buf.format({ async = true })<cr>", desc = "Format" },
-    { "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<cr>", desc = "hover" },
-    { "<leader>li", "<cmd>LspInfo<cr>", desc = "Info" },
-    { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<CR>", desc = "Next Diagnostic" },
-    { "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", desc = "Prev Diagnostic" },
-    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>", desc = "CodeLens Action" },
-    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>", desc = "Quickfix" },
-    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = "Rename" },
-    { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
-    { "<leader>lw", "<cmd>Telescope lsp_workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
-    { "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>" },
+    { "<leader>l",  group = "LSP" },
+    { "<leader>lD", "<cmd>lua require('telescope.builtin').diagnostics()<cr>",      desc = "Document diagnostics" },
+    { "<leader>lI", "<cmd>LspInstallInfo<cr>",                                      desc = "Installer Info" },
+    { "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",             desc = "Workspace Symbols" },
+    { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",                       desc = "Code Action" },
+    { "<leader>lf", "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",            desc = "Format" },
+    { "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<cr>",                             desc = "hover" },
+    { "<leader>li", "<cmd>LspInfo<cr>",                                             desc = "Info" },
+    { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<CR>",                      desc = "Next Diagnostic" },
+    { "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>",                      desc = "Prev Diagnostic" },
+    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>",                          desc = "CodeLens Action" },
+    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>",                     desc = "Quickfix" },
+    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>",                            desc = "Rename" },
+    { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>",                      desc = "Document Symbols" },
+    { "<leader>lw", "<cmd>Telescope lsp_workspace_diagnostics<cr>",                 desc = "Workspace Diagnostics" },
+    { "gD",         "<cmd>lua vim.lsp.buf.declaration()<CR>" },
 
-    { "gd", "<cmd>lua vim.lsp.buf.definition()<CR>" },
-    { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" },
-    { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>" },
-    { "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
-    { "gr", "<cmd>Telescope lsp_references<CR>" },
-    { "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>' },
-    { "gl", "<cmd>lua vim.diagnostic.open_float()<CR>" },
-    { "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>' },
-    { "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>" },
+    { "gd",         "<cmd>lua vim.lsp.buf.definition()<CR>" },
+    { "K",          "<cmd>lua vim.lsp.buf.hover()<CR>" },
+    { "gi",         "<cmd>lua vim.lsp.buf.implementation()<CR>" },
+    { "gs",         "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+    { "gr",         "<cmd>Telescope lsp_references<CR>" },
+    { "[d",         '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>' },
+    { "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>" },
+    { "]d",         '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>' },
+    { "<leader>q",  "<cmd>lua vim.diagnostic.setloclist()<CR>" },
 }
 
 for _, v in ipairs(keymaps) do

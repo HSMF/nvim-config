@@ -1,9 +1,9 @@
 return {
-    {"rmagatti/auto-session",
-    config = function()
-        require("auto-session").setup({
+    {
+        "rmagatti/auto-session",
+        opts = {
             log_level = "error",
-            auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
-        })
-    end,}
+            suppressed_dirs = { "~/", "~/Downloads", "/" }
+        },
+    }
 }

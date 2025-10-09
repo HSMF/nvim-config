@@ -1,6 +1,4 @@
 local lspconfig = require("lspconfig")
-local configs = require("lspconfig/configs")
-local util = require("lspconfig/util")
 
 local language = "en-US"
 local spell_dir = vim.fn.stdpath("config") .. "/spell"
@@ -49,7 +47,7 @@ local function update_config(lang, key, new_list)
 
     if client.config.settings.ltex[key] then
         client.config.settings.ltex[key][lang] = new_list
-        client.notify("workspace/didChangeConfiguration", client.config.settings)
+        client:notify("workspace/didChangeConfiguration", client.config.settings)
     else
         return vim.notify(string.format("Error when reading %s config, check it", key))
     end
@@ -132,13 +130,13 @@ vim.api.nvim_create_user_command("LtexReloadConfig", function()
         hiddenFalsePositives = FalsePositives_file,
     }
 
-    for key, files in pairs(t) do
+    for _, files in pairs(t) do
         for lang, file in pairs(files) do
             client.config.settings.ltex[lang] = read_file(file)
         end
     end
 
-    client.notify("workspace/didChangeConfiguration", client.config.settings)
+    client:notify("workspace/didChangeConfiguration", client.config.settings)
 end, {})
 
 vim.lsp.commands["_ltex.addToDictionary"] = ltex_add_to_word_list(Dictionary_file, "dictionary")

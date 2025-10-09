@@ -34,6 +34,9 @@ local options = {
     smartcase = true,
     grepprg = "rg --vimgrep --smart-case --hidden",
     grepformat = "%f:%l:%c:%m",
+    sessionoptions = {
+        "blank", "buffers", "curdir", "folds", "help", "tabpages", "winsize", "winpos", "terminal", "localoptions"
+    }
 }
 
 local other_options = {
