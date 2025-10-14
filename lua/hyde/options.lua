@@ -39,6 +39,10 @@ local options = {
     }
 }
 
+if vim.fn.has("win32") then
+    options.guifont =  "JetBrainsMono NF:h14"
+end
+
 local other_options = {
     swapfile = false,
 }
