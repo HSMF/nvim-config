@@ -2,6 +2,7 @@ return {
     {
         "lukas-reineke/indent-blankline.nvim", -- indentation
         config = function()
+            if true then return end
             local status_ok, indent_blankline = pcall(require, "ibl")
             if not status_ok then
                 return

@@ -90,7 +90,7 @@ function M.load_server(name)
         return
     end
 
-    vim.lsp.config(name)
+    vim.lsp.config(name, {})
     loaded_servers[name] = true
 end
 

@@ -6,5 +6,9 @@
 --         venv = ".env",
 --     },
 -- })
-vim.lsp.config("basedpyright", {})
-vim.lsp.enable("basedpyright")
+vim.lsp.config("pyrefly", {
+    settings = {
+        displayTypeErrors = "force-on"
+    }
+})
+vim.lsp.enable("pyrefly")

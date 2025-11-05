@@ -1,13 +1,5 @@
 local util = require("hyde.util")
 
-vim.api.nvim_set_keymap("i", "$", "", {
-    nowait = true,
-    noremap = true,
-    callback = function()
-        require("autotemplate").autotemplate(vim.bo.filetype)
-    end,
-})
-
 vim.api.nvim_buf_create_user_command(0, "MakeAsync", function(opts)
     local cursor_node = util.get_node_at_cursor()
     local node = cursor_node
