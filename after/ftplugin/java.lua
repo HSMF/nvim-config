@@ -113,7 +113,8 @@ local config = {
             },
         },
     },
-    root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+    on_attach = require("hyde.lsp.handlers").on_attach,
+    root_dir = "/fxxxx/java", -- vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {

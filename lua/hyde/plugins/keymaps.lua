@@ -66,7 +66,9 @@ local function direct_maps()
     -- map("x", "∆", ":move '<-2<CR>gv-gv", opts)
 
     map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { silent = true })
-    map("n", "gD", "<cmd>lua vim.lsp.buf.definition()<cr>", { silent = true })
+    map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", { silent = true })
+    map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", { silent = true })
+    map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { silent = true })
 
     map("n", "Zz", "<cmd>wincmd _ | wincmd |<cr>", opts)
     map("n", "Zo", "<cmd>wincmd =<cr>", opts)

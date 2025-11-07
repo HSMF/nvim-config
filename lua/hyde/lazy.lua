@@ -33,6 +33,10 @@ local opts = {
         path = "~/projects/",
         fallback = true,
     },
+    profiling = {
+        loader = true,
+        require = true,
+    },
 }
 
 require("lazy").setup("hyde.plugins", opts)
