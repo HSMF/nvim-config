@@ -14,6 +14,9 @@ vim.filetype.add({
     extension = {
         gobra = "gobra",
         ll = "llvm",
+        stm = "stm",
+        dtm = "dtm",
+        ptm = "ptm",
     },
     filename = {
         ["Hakefile"] = "haskell",
