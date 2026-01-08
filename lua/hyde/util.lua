@@ -127,7 +127,7 @@ end
 
 ---@param bufnr integer|nil
 ---@param lang string|nil
-local function get_parser(bufnr, lang)
+function M.get_parser(bufnr, lang)
     bufnr = bufnr or vim.api.nvim_get_current_buf()
     lang = lang or vim.treesitter.language.get_lang(vim.bo[bufnr].filetype)
 
@@ -140,7 +140,7 @@ function M.get_node_at_cursor(winnr, ignore_injected_langs)
     local cursor_range = { cursor[1] - 1, cursor[2] }
 
     local buf = vim.api.nvim_win_get_buf(winnr)
-    local root_lang_tree = get_parser(buf)
+    local root_lang_tree = M.get_parser(buf)
     if not root_lang_tree then
         return
     end
@@ -167,7 +167,7 @@ end
 
 function M.get_root_for_position(line, col, root_lang_tree)
     if not root_lang_tree then
-        root_lang_tree = get_parser()
+        root_lang_tree = M.get_parser()
         if root_lang_tree == nil then
             return
         end
@@ -305,7 +305,7 @@ local EMPTY_ITER = function() end
 ---@param root_lang string|nil
 ---@return vim.treesitter.Query|nil, QueryInfo|nil
 local function prepare_query(bufnr, query_name, root, root_lang)
-    local parser = get_parser(bufnr)
+    local parser = M.get_parser(bufnr)
     if not parser then
         return
     end
