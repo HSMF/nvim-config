@@ -158,7 +158,7 @@ return {
                         enabled = false,
                     },
                     notify = {
-                        enabled = false,
+                        enabled = true,
                     },
                 })
             end

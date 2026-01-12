@@ -17,6 +17,7 @@ vim.filetype.add({
         stm = "stm",
         dtm = "dtm",
         ptm = "ptm",
+        vpr = "viper"
     },
     filename = {
         ["Hakefile"] = "haskell",

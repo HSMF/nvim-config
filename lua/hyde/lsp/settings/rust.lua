@@ -130,5 +130,7 @@ vim.lsp.config("rust_analyzer", {
             },
         },
     },
+    on_attach = require "hyde.lsp.handlers".on_attach,
+    capabilities = require "hyde.lsp.handlers".capabilities
 })
 vim.lsp.enable("rust_analyzer")
