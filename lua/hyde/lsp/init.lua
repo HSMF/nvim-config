@@ -45,7 +45,23 @@ function M.setup()
     -- local global_capabilities = vim.lsp.protocol.make_client_capabilities()
     -- global_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+    vim.diagnostic.config({
+        virtual_text = true,
+        signs = true,
+        float = { border = "single" },
+    })
+    local handlers = require("hyde.lsp.handlers")
+    handlers.setup()
+
+    require("hyde.lsp.settings.omnisharp")
+    -- load_all()
+    require("hyde.lsp.null")
+
     vim.lsp.config("*", {
+        on_attach = require("hyde.lsp.handlers").on_attach,
+        capabilities = require("hyde.lsp.handlers").capabilities,
+    })
+    vim.lsp.config("clangd", {
         on_attach = require("hyde.lsp.handlers").on_attach,
         capabilities = require("hyde.lsp.handlers").capabilities,
     })
@@ -61,21 +77,11 @@ function M.setup()
             }
         }
     })
-    vim.diagnostic.config({
-        virtual_text = true,
-        signs = true,
-        float = { border = "single" },
-    })
-    local handlers = require("hyde.lsp.handlers")
-    handlers.setup()
-
-    require("hyde.lsp.settings.omnisharp")
-    -- load_all()
-    require("hyde.lsp.null")
 
     for _, server in ipairs(quick_list_enabled_servers) do
         vim.lsp.enable(server)
     end
+    require "hyde.lsp.settings.python"
 end
 
 local loaded_servers = {}
@@ -90,7 +96,6 @@ function M.load_server(name)
         return
     end
 
-    vim.lsp.config(name, {})
     loaded_servers[name] = true
 end
 

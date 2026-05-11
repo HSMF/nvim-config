@@ -61,15 +61,15 @@ M.setup = function()
     vim.diagnostic.config(config)
     vim.o.updatetime = 250
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-    })
+    -- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    --     border = "rounded",
+    -- })
 
     -- vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
 
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
-    })
+    -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+    --     border = "rounded",
+    -- })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -98,20 +98,20 @@ end
 
 local keymaps = {
     { "<leader>l",  group = "LSP" },
-    { "<leader>lD", "<cmd>lua require('telescope.builtin').diagnostics()<cr>",      desc = "Document diagnostics" },
-    { "<leader>lI", "<cmd>LspInstallInfo<cr>",                                      desc = "Installer Info" },
-    { "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",             desc = "Workspace Symbols" },
-    { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",                       desc = "Code Action" },
-    { "<leader>lf", "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",            desc = "Format" },
-    { "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<cr>",                             desc = "hover" },
-    { "<leader>li", "<cmd>LspInfo<cr>",                                             desc = "Info" },
-    { "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<CR>",                      desc = "Next Diagnostic" },
-    { "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>",                      desc = "Prev Diagnostic" },
-    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>",                          desc = "CodeLens Action" },
-    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>",                     desc = "Quickfix" },
-    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>",                            desc = "Rename" },
-    { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>",                      desc = "Document Symbols" },
-    { "<leader>lw", "<cmd>Telescope lsp_workspace_diagnostics<cr>",                 desc = "Workspace Diagnostics" },
+    { "<leader>lD", "<cmd>lua require('telescope.builtin').diagnostics()<cr>",             desc = "Document diagnostics" },
+    { "<leader>lI", "<cmd>LspInstallInfo<cr>",                                             desc = "Installer Info" },
+    { "<leader>lS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",                    desc = "Workspace Symbols" },
+    { "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>",                              desc = "Code Action" },
+    { "<leader>lf", "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",                   desc = "Format" },
+    { "<leader>lh", "<cmd>lua vim.lsp.buf.hover()<cr>",                                    desc = "hover" },
+    { "<leader>li", "<cmd>LspInfo<cr>",                                                    desc = "Info" },
+    { "<leader>lj", "<cmd>lua vim.diagnostic.jump({count = 1})<CR>",                       desc = "Next Diagnostic" },
+    { "<leader>lk", "<cmd>lua vim.diagnostic.jump({count = -1})<cr>",                      desc = "Prev Diagnostic" },
+    { "<leader>ll", "<cmd>lua vim.lsp.codelens.run()<cr>",                                 desc = "CodeLens Action" },
+    { "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<cr>",                            desc = "Quickfix" },
+    { "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>",                                   desc = "Rename" },
+    { "<leader>ls", "<cmd>Telescope lsp_document_symbols<cr>",                             desc = "Document Symbols" },
+    { "<leader>lw", "<cmd>Telescope lsp_workspace_diagnostics<cr>",                        desc = "Workspace Diagnostics" },
     { "gD",         "<cmd>lua vim.lsp.buf.declaration()<CR>" },
 
     { "gd",         "<cmd>lua vim.lsp.buf.definition()<CR>" },
@@ -119,9 +119,9 @@ local keymaps = {
     { "gi",         "<cmd>lua vim.lsp.buf.implementation()<CR>" },
     { "gs",         "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
     { "gr",         "<cmd>Telescope lsp_references<CR>" },
-    { "[d",         '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>' },
+    { "[d",         '<cmd>lua vim.diagnostic.jump({ count = -1, border = "rounded" })<CR>' },
     { "gl",         "<cmd>lua vim.diagnostic.open_float()<CR>" },
-    { "]d",         '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>' },
+    { "]d",         '<cmd>lua vim.diagnostic.jump({ count = 1, border = "rounded" })<CR>' },
     { "<leader>q",  "<cmd>lua vim.diagnostic.setloclist()<CR>" },
 }
 
