@@ -5,24 +5,13 @@ require("hyde.commands")
 
 require("hyde.tools")
 
+require("hyde.filetypes")
+
 local after_conf = require("hyde.util").get_vars().after_conf
 if after_conf ~= nil then
     after_conf()
 end
 
-vim.filetype.add({
-    extension = {
-        gobra = "gobra",
-        ll = "llvm",
-        stm = "stm",
-        dtm = "dtm",
-        ptm = "ptm",
-        vpr = "viper"
-    },
-    filename = {
-        ["Hakefile"] = "haskell",
-    },
-})
 vim.treesitter.language.register("gobra", { "gobra" })
 -- vim.treesitter.language.add(
 --     "gobra",
