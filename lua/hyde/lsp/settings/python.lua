@@ -8,7 +8,11 @@
 -- })
 vim.lsp.config("pyrefly", {
     settings = {
-        displayTypeErrors = "force-on"
-    }
+        python = {
+            pyrefly = {
+                displayTypeErrors = 'force-on'
+            }
+        }
+    },
 })
 vim.lsp.enable("pyrefly")
