@@ -11,6 +11,14 @@ return {
                     detached = false,
                 }
             }
+            dap.adapters.netcoredbg = {
+                type = "executable",
+                command = vim.fn.stdpath("data") .. "/mason/bin/netcoredbg",
+                args = { "--interpreter=vscode" },
+                options = {
+                    detached = false,
+                }
+            }
 
             dap.configurations.cs = {
                 {
