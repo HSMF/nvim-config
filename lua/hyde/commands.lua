@@ -44,17 +44,17 @@ end, {
 local function esc(x)
     return (
         x:gsub("%%", "%%%%")
-            :gsub("^%^", "%%^")
-            :gsub("%$$", "%%$")
-            :gsub("%(", "%%(")
-            :gsub("%)", "%%)")
-            :gsub("%.", "%%.")
-            :gsub("%[", "%%[")
-            :gsub("%]", "%%]")
-            :gsub("%*", "%%*")
-            :gsub("%+", "%%+")
-            :gsub("%-", "%%-")
-            :gsub("%?", "%%?")
+        :gsub("^%^", "%%^")
+        :gsub("%$$", "%%$")
+        :gsub("%(", "%%(")
+        :gsub("%)", "%%)")
+        :gsub("%.", "%%.")
+        :gsub("%[", "%%[")
+        :gsub("%]", "%%]")
+        :gsub("%*", "%%*")
+        :gsub("%+", "%%+")
+        :gsub("%-", "%%-")
+        :gsub("%?", "%%?")
     )
 end
 
@@ -71,4 +71,23 @@ vim.api.nvim_create_user_command("ShareLocation", function()
     local res = string.format("%s:%d", file, line)
 
     vim.fn.setreg("+", res)
+end, {})
+
+vim.api.nvim_create_user_command("CloseOrphans", function()
+    local count = 0
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted and not vim.bo[buf].modified then
+            local name = vim.api.nvim_buf_get_name(buf)
+            if name == "" or vim.fn.filereadable(name) == 0 then
+                vim.bo[buf].buflisted = false
+                vim.api.nvim_buf_delete(buf, { unload = true })
+                count = count + 1
+            end
+        end
+    end
+    print(count .. " buffer(s) closed")
+end, {})
+
+vim.api.nvim_create_user_command("DontFormat", function()
+    DONTFORMATBUF[vim.api.nvim_get_current_buf()] = not DONTFORMATBUF[vim.api.nvim_get_current_buf()]
 end, {})
