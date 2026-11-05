@@ -37,6 +37,7 @@ local opts = {
         loader = true,
         require = true,
     },
+    change_detection = { enabled = false }
 }
 
 require("lazy").setup("hyde.plugins", opts)
