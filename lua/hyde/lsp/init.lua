@@ -16,6 +16,7 @@ local quick_list_enabled_servers = {
     "roc_ls",
     "elmls",
     "clangd",
+    -- "ltex_plus"
 }
 
 local function load_all()
@@ -82,6 +83,14 @@ function M.setup()
         vim.lsp.enable(server)
     end
     require "hyde.lsp.settings.python"
+    require "hyde.lsp.settings.ocaml"
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            require("hyde.lsp.handlers").on_attach(client, args.buf)
+        end,
+    })
 end
 
 local loaded_servers = {}
