@@ -701,17 +701,17 @@ local function config()
         },
         {
             "<leader>lk",
-            "<cmd>lua vim.diagnostic.goto_prev()<cr>",
+            function() vim.diagnostic.jump({ count = -1 }) end,
             desc = "Prev Diagnostic",
         },
         {
             "<leader>lr",
-            "<cmd>lua vim.lsp.buf.rename()<cr>",
+            function() vim.lsp.buf.rename() end,
             desc = "Rename",
         },
         {
             "<leader>lj",
-            "<cmd>lua vim.diagnostic.goto_next()<CR>",
+            function() vim.diagnostic.jump({ count = 1 }) end,
             desc = "Next Diagnostic",
         },
         {
