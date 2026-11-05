@@ -183,7 +183,6 @@ return {
         "akinsho/bufferline.nvim",
         -- version = "*",
         dependencies = "nvim-tree/nvim-web-devicons",
-        after = "which-key",
         config = function()
             vim.cmd("set mousemoveevent")
             require("bufferline").setup({

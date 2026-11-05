@@ -9,18 +9,13 @@ return {
     {
 
         "cbochs/grapple.nvim",
-        after = "which-key",
         config = function()
-            local wk = require("which-key")
-            wk.add({
-                {
-                    "<leader>m",
-                    function()
-                        require("grapple").toggle()
-                    end,
-                },
-                { "<leader>M", require("grapple").toggle_tags },
-            })
+            vim.keymap.set("n", "<leader>m", function()
+                require("grapple").toggle()
+            end, { desc = "Grapple toggle" })
+            vim.keymap.set("n", "<leader>M", function()
+                require("grapple").toggle_tags()
+            end, { desc = "Grapple tags" })
         end,
     },
 }
