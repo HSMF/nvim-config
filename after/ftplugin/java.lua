@@ -27,81 +27,81 @@ vim.list_extend(
     )
 )
 
-local config = {
-    -- The command that starts the language server
-    -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-    cmd = {
-
-        -- 💀
-        "java", -- or '/path/to/java17_or_newer/bin/java'
-        -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
-        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-        "-Dosgi.bundles.defaultStartLevel=4",
-        "-Declipse.product=org.eclipse.jdt.ls.core.product",
-        "-Dlog.protocol=true",
-        "-Dlog.level=ALL",
-        "-Xmx1g",
-        "--add-modules=ALL-SYSTEM",
-        "--add-opens",
-        "java.base/java.util=ALL-UNNAMED",
-        "--add-opens",
-        "java.base/java.lang=ALL-UNNAMED",
-
-        -- 💀
-        "-jar",
-        vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
-
-        -- 💀
-        "-configuration",
-        home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. os_config,
-        -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
-        -- Must point to the                      Change to one of `linux`, `win` or `mac`
-        -- eclipse.jdt.ls installation            Depending on your system.
-
-        -- 💀
-        -- See `data directory configuration` section in the README
-        "-data",
-        workspace_dir,
-    },
-
-    -- 💀
-    -- This is the default if not provided, you can remove it. Or adjust as needed.
-    -- One dedicated LSP server & client will be started per unique root_dir
-    root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
-
-    -- Here you can configure eclipse.jdt.ls specific settings
-    -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-    -- for a list of options
-    settings = {
-        java = {
-            format = {
-                enabled = false,
-            },
-        },
-    },
-
-    -- Language server `initializationOptions`
-    -- You need to extend the `bundles` with paths to jar files
-    -- if you want to use additional eclipse.jdt.ls plugins.
-    --
-    -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
-    --
-    -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
-    init_options = {
-        bundles = {},
-    },
-}
-
-config["on_attach"] = function(client, bufnr)
-    local _, _ = pcall(vim.lsp.codelens.refresh)
-    require("jdtls").setup_dap({ hotcodereplace = "auto" })
-    require("hyde.lsp.handlers").on_attach(client, bufnr)
-    local status_ok, jdtls_dap = pcall(require, "jdtls.dap")
-    if status_ok then
-        jdtls_dap.setup_dap_main_class_configs()
-    end
-end
+-- local config = {
+--     -- The command that starts the language server
+--     -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+--     cmd = {
+--
+--         -- 💀
+--         "java", -- or '/path/to/java17_or_newer/bin/java'
+--         -- depends on if `java` is in your $PATH env variable and if it points to the right version.
+--
+--         "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+--         "-Dosgi.bundles.defaultStartLevel=4",
+--         "-Declipse.product=org.eclipse.jdt.ls.core.product",
+--         "-Dlog.protocol=true",
+--         "-Dlog.level=ALL",
+--         "-Xmx1g",
+--         "--add-modules=ALL-SYSTEM",
+--         "--add-opens",
+--         "java.base/java.util=ALL-UNNAMED",
+--         "--add-opens",
+--         "java.base/java.lang=ALL-UNNAMED",
+--
+--         -- 💀
+--         "-jar",
+--         vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"),
+--
+--         -- 💀
+--         "-configuration",
+--         home .. "/.local/share/nvim/mason/packages/jdtls/config_" .. os_config,
+--         -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
+--         -- Must point to the                      Change to one of `linux`, `win` or `mac`
+--         -- eclipse.jdt.ls installation            Depending on your system.
+--
+--         -- 💀
+--         -- See `data directory configuration` section in the README
+--         "-data",
+--         workspace_dir,
+--     },
+--
+--     -- 💀
+--     -- This is the default if not provided, you can remove it. Or adjust as needed.
+--     -- One dedicated LSP server & client will be started per unique root_dir
+--     root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew" }),
+--
+--     -- Here you can configure eclipse.jdt.ls specific settings
+--     -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+--     -- for a list of options
+--     settings = {
+--         java = {
+--             format = {
+--                 enabled = false,
+--             },
+--         },
+--     },
+--
+--     -- Language server `initializationOptions`
+--     -- You need to extend the `bundles` with paths to jar files
+--     -- if you want to use additional eclipse.jdt.ls plugins.
+--     --
+--     -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
+--     --
+--     -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+--     init_options = {
+--         bundles = {},
+--     },
+-- }
+--
+-- config["on_attach"] = function(client, bufnr)
+--     local _, _ = pcall(vim.lsp.codelens.refresh)
+--     require("jdtls").setup_dap({ hotcodereplace = "auto" })
+--     require("hyde.lsp.handlers").on_attach(client, bufnr)
+--     local status_ok, jdtls_dap = pcall(require, "jdtls.dap")
+--     if status_ok then
+--         jdtls_dap.setup_dap_main_class_configs()
+--     end
+-- end
 
 local config = {
     -- cmd = { mason_path .. "/bin/jdtls" },
@@ -115,12 +115,19 @@ local config = {
     },
     on_attach = require("hyde.lsp.handlers").on_attach,
     root_dir = "/fxxxx/java", -- vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw" }, { upward = true })[1]),
+    init_options = {
+        bundles = {
+            vim.fn.glob(
+                "~/.local/share/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+                true)
+        }
+    },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     pattern = { "*.java" },
     callback = function()
-        local _, _ = pcall(vim.lsp.codelens.refresh)
+        -- local _, _ = pcall(vim.lsp.codelens.refresh)
     end,
 })
 
@@ -162,3 +169,31 @@ vim.api.nvim_buf_create_user_command(0, "RefactorBuilder", function()
 end, {})
 
 require("jdtls").start_or_attach(config)
+
+
+vim.keymap.set("v", "<leader>crm", function()
+    print("extract method")
+    jdtls.extract_method(true)
+end, {
+    buf = vim.api.nvim_get_current_buf()
+})
+vim.keymap.set("v", "<leader>crv", function()
+    jdtls.extract_variable(true)
+end, {
+    buf = vim.api.nvim_get_current_buf()
+})
+vim.keymap.set("n", "<leader>crv", function()
+    jdtls.extract_variable()
+end, {
+    buf = vim.api.nvim_get_current_buf()
+})
+
+require('dap').configurations.java = {
+    {
+        type = 'java',
+        request = 'attach',
+        name = 'Remote Debug (port 5005)',
+        hostName = 'localhost',
+        port = 5005,
+    },
+}
